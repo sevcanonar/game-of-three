@@ -1,0 +1,21 @@
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    buildscript {
+
+        dependencies {
+            classpath 'io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE'
+        }
+    }
+
+    eclipse {
+        project.natures 'org.eclipse.buildship.core.gradleprojectnature'
+    }
+}
