@@ -2,4 +2,5 @@ include 'player'
 project(':player').projectDir = new File(settingsDir, 'player')
 include 'game'
 project(':game').projectDir = new File(settingsDir, 'game')
-
+include 'commongame'
+project(':commongame').projectDir = new File(settingsDir, 'commongame')
