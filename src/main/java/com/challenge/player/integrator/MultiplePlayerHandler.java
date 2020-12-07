@@ -53,14 +53,7 @@ public class MultiplePlayerHandler implements Runnable {
             String userInput = "";
 
             out.println("current thread number is " + Thread.currentThread().getId());
-            while (true) {
-                if (userInput.equals("EXIT"))
-                    break;
-            }
 
-            in.close();
-            out.close();
-            clientSocket.close();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

@@ -1,2 +1,0 @@
-include 'commongame'
-project(':commongame').projectDir = new File(settingsDir, 'commongame')

@@ -128,7 +128,13 @@ public class GameEventsListener implements GameListener {
         out.println("current thread number is " + Thread.currentThread().getId());
         if (gameEvent.getTo().equals(userName)) {
             out.println(gameEvent.getPlayerOutput());
-            out.close();
+            try {
+                in.close();
+                out.close();
+                clientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

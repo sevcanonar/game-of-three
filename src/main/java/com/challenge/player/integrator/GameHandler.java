@@ -108,6 +108,7 @@ public class GameHandler extends Thread {
                         if(moveOutput.equals(1)) {
                             gameEventRegistererCaller.eventHappens(new GameOverEvent(playerEvent.getUserName(), "You Won!"));
                             gameEventRegistererCaller.eventHappens(new GameOverEvent(opponentName, "Your opponent succeeded to calculate 1. You Lost!"));
+                            playerInformation.clear();
                         }
                         else {
                             if (opponentName != null) {

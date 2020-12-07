@@ -1,21 +1,30 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
 allprojects {
+
     apply plugin: 'java'
     apply plugin: 'eclipse'
 
-    sourceCompatibility = 1.8
+    group = 'com.challenge'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '1.8'
 
     repositories {
         mavenCentral()
     }
 
-    buildscript {
-
-        dependencies {
-            classpath 'io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE'
-        }
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework:spring-websocket'
+        implementation 'org.springframework:spring-messaging'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 
-    eclipse {
-        project.natures 'org.eclipse.buildship.core.gradleprojectnature'
+    test {
+        useJUnitPlatform()
     }
 }
