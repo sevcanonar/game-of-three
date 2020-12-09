@@ -15,10 +15,10 @@ public class Application {
     public static void main(final String[] args) {
         ApplicationContext applicationContext = SpringApplication.run(Application.class, args);
         ThreadPoolExecutor serverThreadPoolExecutor = (ThreadPoolExecutor)applicationContext.getBean("serverHandlerTaskExecutor");
-        ThreadPoolExecutor clientThreadPoolExecutor = (ThreadPoolExecutor)applicationContext.getBean("taskExecutor");
+        //ThreadPoolExecutor clientThreadPoolExecutor = (ThreadPoolExecutor)applicationContext.getBean("taskExecutor");
         PlayerEventConsumerService playerEventConsumerService = applicationContext.getBean(PlayerEventConsumerService.class);
-        MultiplePlayerMeeterService multiplePlayerMeeterService = applicationContext.getBean(MultiplePlayerMeeterService.class);
-        clientThreadPoolExecutor.execute(multiplePlayerMeeterService);
+        //MultiplePlayerMeeterService multiplePlayerMeeterService = applicationContext.getBean(MultiplePlayerMeeterService.class);
+        //clientThreadPoolExecutor.execute(multiplePlayerMeeterService);
         serverThreadPoolExecutor.execute(playerEventConsumerService);
         GameSocketServer server = applicationContext.getBean(GameSocketServer.class);
         server.start();

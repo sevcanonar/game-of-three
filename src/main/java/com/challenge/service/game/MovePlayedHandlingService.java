@@ -3,7 +3,7 @@ package com.challenge.service.game;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.*;
 import com.challenge.model.PlayerMoveInfo;
-import com.challenge.service.player.GameEventConsumer;
+import com.challenge.service.player.GameEventsConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
     GameHandlingServiceHelper gameHandlingServiceHelper;
 
     @Autowired
-    GameEventConsumer gameEventConsumer;
+    GameEventsConsumer gameEventsConsumer;
 
     @Override
     public void handle(PlayerEvent playerEvent, Map<String, PlayerMoveInfo> playerInformation) {
@@ -34,18 +34,18 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
         if (playedPlayerMoveInfo.getMoveInput() != null) {
             Integer moveSum = (playedPlayerMoveInfo.getMoveInput() + playedPlayerMoveInfo.getMoveValue());
             if (Math.floorMod(moveSum, 3) != 0) {
-                gameEventConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), "Your input does not result in a number divisable with 3, please enter again."));
+                gameEventsConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), "Your input does not result in a number divisable with 3, please enter again."));
                 return;
             } else
                 moveOutput = moveSum / 3;
         } else
             moveOutput = Integer.valueOf(playerEvent.getPlayerInput());
         //inform player
-        gameEventConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "You played with :" + playedPlayerMoveInfo.getMoveValue() + ". And output is " + moveOutput));
+        gameEventsConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "You played with :" + playedPlayerMoveInfo.getMoveValue() + ". And output is " + moveOutput));
         //update for opponent
         if (moveOutput.equals(1)) {
-            gameEventConsumer.createEvent(new GameOverEvent(playerEvent.getUserName(), "You Won!"));
-            gameEventConsumer.createEvent(new GameOverEvent(opponentName, "Your opponent succeeded to calculate 1. You Lost!"));
+            gameEventsConsumer.createEvent(new GameOverEvent(playerEvent.getUserName(), "You Won!"));
+            gameEventsConsumer.createEvent(new GameOverEvent(opponentName, "Your opponent succeeded to calculate 1. You Lost!"));
             playerInformation.clear();
         } else {
             if (opponentName != null) {
@@ -53,9 +53,9 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
                 opponentPlayerMoveInfo.setMoveInput(moveOutput);
                 playerInformation.put(opponentName, opponentPlayerMoveInfo);
                 if (opponentPlayerMoveInfo.getPlayerType().equals(PlayerType.NONE)) {
-                    gameEventConsumer.createEvent(new GameAutoManualInformationEvent(opponentName, "Select your play type"));
+                    gameEventsConsumer.createEvent(new GameAutoManualInformationEvent(opponentName, "Select your play type"));
                 } else
-                    gameEventConsumer.createEvent(new GameYourTurnEvent(opponentName, "Your opponent played. Your input is :" + moveOutput, opponentPlayerMoveInfo.getPlayerType(), moveOutput));
+                    gameEventsConsumer.createEvent(new GameYourTurnEvent(opponentName, "Your opponent played. Your input is :" + moveOutput, opponentPlayerMoveInfo.getPlayerType(), moveOutput));
             }
         }
     }

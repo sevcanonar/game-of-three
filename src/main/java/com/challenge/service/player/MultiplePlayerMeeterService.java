@@ -2,6 +2,7 @@ package com.challenge.service.player;
 
 
 import com.challenge.config.PlayerEventQueue;
+import com.challenge.constants.GameListenerType;
 import com.challenge.constants.PlayerEventType;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.PlayerEvent;
@@ -19,12 +20,12 @@ import java.util.concurrent.BlockingQueue;
 public class MultiplePlayerMeeterService implements Runnable {
     PlayerEventQueue playerEventQueue;
     private Socket clientSocket;
-    private GameEventConsumer gameEventConsumer;
+    private GameEventsConsumer gameEventsConsumer;
 
-    public MultiplePlayerMeeterService(ServerSocket socket, GameEventConsumer gameEventConsumer, PlayerEventQueue playerEventQueue) {
+    public MultiplePlayerMeeterService(ServerSocket socket, GameEventsConsumer gameEventsConsumer, PlayerEventQueue playerEventQueue) {
         try {
             this.clientSocket = socket.accept();
-            this.gameEventConsumer = gameEventConsumer;
+            this.gameEventsConsumer = gameEventsConsumer;
             this.playerEventQueue = playerEventQueue;
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,7 +45,11 @@ public class MultiplePlayerMeeterService implements Runnable {
             if (userName != null) {
                 playerEvents.put(new PlayerEvent(userName, PlayerEventType.USER_LOGIN, userName, PlayerType.NONE));
             }
-            gameEventConsumer.register(new GameEventsListener(userName, out, in, clientSocket, playerEventQueue));
+            gameEventsConsumer.register(userName, GameListenerType.AUTOMAN, new GameAutoManualInfoEventListener(out, in, clientSocket, playerEventQueue));
+            gameEventsConsumer.register(userName, GameListenerType.INFO, new GameInformationEventListener(out, in, clientSocket, playerEventQueue));
+            gameEventsConsumer.register(userName, GameListenerType.START, new GameStartEventListener(out, in, clientSocket, playerEventQueue));
+            gameEventsConsumer.register(userName, GameListenerType.YOURTURN, new GameYourTurnEventListener(out, in, clientSocket, playerEventQueue));
+            gameEventsConsumer.register(userName, GameListenerType.GAMEOVER, new GameOverEventListener(out, in, clientSocket, playerEventQueue));
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

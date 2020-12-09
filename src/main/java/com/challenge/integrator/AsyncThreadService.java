@@ -1,8 +1,7 @@
 package com.challenge.integrator;
 
 import com.challenge.config.PlayerEventQueue;
-import com.challenge.service.player.GameEventConsumer;
-import com.challenge.service.player.GameEventsListener;
+import com.challenge.service.player.GameEventsConsumer;
 import com.challenge.service.player.MultiplePlayerMeeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,11 +23,11 @@ public class AsyncThreadService {
     @Qualifier("serverSocket")
     private ServerSocket serverSocket;
     @Autowired
-    private GameEventConsumer gameEventConsumer;
+    private GameEventsConsumer gameEventsConsumer;
     @Autowired
     private PlayerEventQueue playerEventQueue;
 
     public void executeAsynchronously() {
-        threadPoolExecutor.execute(new MultiplePlayerMeeterService(serverSocket, gameEventConsumer, playerEventQueue));
+        threadPoolExecutor.execute(new MultiplePlayerMeeterService(serverSocket, gameEventsConsumer, playerEventQueue));
     }
 }

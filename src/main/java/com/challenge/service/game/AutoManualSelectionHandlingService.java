@@ -6,7 +6,7 @@ import com.challenge.event.GameStartEvent;
 import com.challenge.event.GameYourTurnEvent;
 import com.challenge.event.PlayerEvent;
 import com.challenge.model.PlayerMoveInfo;
-import com.challenge.service.player.GameEventConsumer;
+import com.challenge.service.player.GameEventsConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class AutoManualSelectionHandlingService implements PlayerEventHandlingSe
     @Autowired
     GameHandlingServiceHelper gameHandlingServiceHelper;
     @Autowired
-    GameEventConsumer gameEventConsumer;
+    GameEventsConsumer gameEventsConsumer;
 
     @Override
     public void handle(PlayerEvent playerEvent, Map<String, PlayerMoveInfo> playerInformation) {
@@ -33,10 +33,10 @@ public class AutoManualSelectionHandlingService implements PlayerEventHandlingSe
         playerInformation.put(playerEvent.getUserName(), userInfo);
 
         if (startedGameInfo.isStarted()) {
-            gameEventConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "There is a game already started."));
-            gameEventConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), "Opponent start value is " + startedGameInfo.getMoveValue(), userInfo.getPlayerType(), startedGameInfo.getMoveValue()));
+            gameEventsConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "There is a game already started."));
+            gameEventsConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), "Opponent start value is " + startedGameInfo.getMoveValue(), userInfo.getPlayerType(), startedGameInfo.getMoveValue()));
         } else {
-            gameEventConsumer.createEvent(new GameStartEvent(playerEvent.getUserName(), "Enter a value to start the game.", userInfo.getPlayerType()));
+            gameEventsConsumer.createEvent(new GameStartEvent(playerEvent.getUserName(), "Enter a value to start the game.", userInfo.getPlayerType()));
         }
     }
 }
