@@ -19,28 +19,58 @@ to run as different instances for each player. The second project was going to b
 and both players were going to communicate over the game. I actually implemented these 2 projects.
 They are in the git history of this repository. 
 
-Then, I decided on one Spring Boot project
+Then, I decided on one Spring Boot project which has 2 parts and opens 3 threads,
+1 for player-1, 1 for player-2, 1 for the game thread. These will run asynchronously and there is
+1 server socket and 2 client sockets which accepts connection from the server socket. 
 
-**Solution**
+In one project solution, I also could not decide for the communication strategy until I re-read the
+definition of the problem. 
+First, I implemented a solution where there are 2 queues, 1 for players, 1 for game events.
+Then, I decided on using both queues and event listeners to make use of the both patterns.
+I used one singleton Blocking Queue instance to communicate from both players to game. 
+I used an event listening strategy to communicate from game to players.
+
+In the latest version, for each player, game event listeners are registered. 
+When a player does something, a player event is pushed to the Blocking Queue to send player-to-game events.
+When the game sends a command or information to the players, 
+game events are created which then be listened by the previously created event listeners of the players.
+
+**Environment**
+
+Requirements
+java 8
+a tcp network tool
+
+You should first start the application and this means that you started the game.
+
+**Cleaning:** 
+`gradlew clean` or `.\gradlew clean`
+
+**Building:** 
+`gradlew build` or `.\gradlew build`
+
+gradlew is a wrapper for gradle and it automatically 
+downloads the gradle version specified in the properties
+
+**Running:** 
+`java -jar game-of-three-0.0.1-SNAPSHOT.jar` or run it on your IDE (Eclipse, IntelliJ etc.)
+
+gradlew is a wrapper for gradle and it automatically downloads the gradle version specified in the properties
+
+Players can connect to the game through a tcp network tool via terminal.
+
+``````````telnet localhost 6666``````````
+
+or
+
+``````````nc localhost 6666``````````
 
 **Rules**
 
-~~~~
-- The game of three provides socket interfaces for 2 players.
-- The starting person enters an integer >=2 and the opponent enters one of {-1,0,1} to be 
-  able to reach a number that is divisable by 3. The game then divides the resulting number
-  by 3 and sends the output to the first player, and game goes on like this until one of the player 
-  reaches 1 as the output of their move. That user wins and other one loses.
-- When game ends their connection is reset.
-- Anyone with a netcat or telnet can connect to these sockets. Maximum 2 client can connect at the same time.
-- Each Player can choose between automatic or manual play options
-- Each Player is forced to enter their user name before entering the game.
-- Each Player is forced to enter their play type before they start.
-- If there is a game started by another user, game gives you the 
-  only option to be included in the already started game 
-- If you enter the same name with the other user, you are disconnected from the game and you should connect again.
-
-- I used sending event objects to communicate from game to players.
-
-- I used blocking queue to communicate from players to game.
-
+- The game of three allows only maximum 2 players at a given time.
+- A player should first enter their user name.
+- If a player enters the same user name with the current user, game gives the warning and closes the connection.
+- A player should choose their player type.
+- For start move, the number should be >=2.
+- When game is over the connections are closed. If player wants to play again they should connect again.
+- If there is a game started by another user, the connected player has only one option to be included in the already started game.
