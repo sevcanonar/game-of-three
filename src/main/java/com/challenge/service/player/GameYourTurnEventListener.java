@@ -1,5 +1,6 @@
 package com.challenge.service.player;
 
+import com.challenge.config.GameStartInformation;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.PlayerEventType;
 import com.challenge.constants.PlayerType;
@@ -22,13 +23,13 @@ public class GameYourTurnEventListener extends GameEventsListener implements Gam
     public void onGameEvent(GameEvent gameEvent) {
         try {
             out.println(gameEvent.getPlayerOutput());
-            String userInput;
+            String userInput = null;
             if (gameEvent.getPlayerType().equals(PlayerType.AUTO)) {
                 out.println("Playing automatically.");
                 userInput = playRightMove(gameEvent.getPlayerInput());
                 out.println(userInput);
             } else {
-                while (true) {
+                while (GameStartInformation.getInstance()) {
                     out.println("Please enter one of {1,0,-1}");
                     userInput = in.readLine();
                     if (userInput != null && (userInput.equals("1") || userInput.equals("0") || userInput.equals("-1"))) {
@@ -36,7 +37,7 @@ public class GameYourTurnEventListener extends GameEventsListener implements Gam
                     }
                 }
             }
-            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput, playerType));
+            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput, gameEvent.getPlayerType()));
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

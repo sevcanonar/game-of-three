@@ -46,7 +46,7 @@ public class UserLoginHandlingServiceTest {
         Mockito.doReturn("sevcan").when(gameHandlingServiceHelper).getCurrentUserName(Mockito.any());
         Mockito.doReturn(new NotStartedGameInfoMock()).when(gameHandlingServiceHelper).startedGameInformation(Mockito.any());
         userLoginHandlingService.handle(new UserLoginPlayerEventMock(), playerInformation);
-        Mockito.verify(gameEventsConsumer, Mockito.times(2)).createEvent(Mockito.any());
+        Mockito.verify(gameEventsConsumer, Mockito.times(3)).createEvent(Mockito.any());
         Assert.assertEquals(2, playerInformation.size());
         Assert.assertNull(playerInformation.get("log").getMoveInput());
     }
@@ -57,7 +57,7 @@ public class UserLoginHandlingServiceTest {
         Mockito.doReturn(null).when(gameHandlingServiceHelper).getCurrentUserName(Mockito.any());
         Mockito.doReturn(new NotStartedGameInfoMock()).when(gameHandlingServiceHelper).startedGameInformation(Mockito.any());
         userLoginHandlingService.handle(new UserLoginPlayerEventMock(), playerInformation);
-        Mockito.verify(gameEventsConsumer, Mockito.times(2)).createEvent(Mockito.any());
+        Mockito.verify(gameEventsConsumer, Mockito.times(3)).createEvent(Mockito.any());
         Assert.assertEquals(1, playerInformation.size());
         Assert.assertNull(playerInformation.get("log").getMoveInput());
     }

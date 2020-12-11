@@ -1,5 +1,6 @@
 package com.challenge.service.game;
 
+import com.challenge.config.GameStartInformation;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.GameInformationEvent;
 import com.challenge.event.GameStartEvent;
@@ -32,7 +33,7 @@ public class AutoManualSelectionHandlingService implements PlayerEventHandlingSe
         }
         playerInformation.put(playerEvent.getUserName(), userInfo);
 
-        if (startedGameInfo.isStarted()) {
+        if (GameStartInformation.getInstance()) {
             gameEventsConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "There is a game already started."));
             gameEventsConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), "Opponent start value is " + startedGameInfo.getMoveValue(), userInfo.getPlayerType(), startedGameInfo.getMoveValue()));
         } else {

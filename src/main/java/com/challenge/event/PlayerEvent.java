@@ -22,16 +22,8 @@ public class PlayerEvent {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public PlayerEventType getEventType() {
         return playerEventType;
-    }
-
-    public void setEventType(PlayerEventType playerEventType) {
-        this.playerEventType = playerEventType;
     }
 
     public String getPlayerInput() {

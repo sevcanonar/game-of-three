@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class GameAutoManualInfoEventListenerTests {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-
+        ReflectionTestUtils.setField(gameAutoManualInfoEventListener, "playerEventQueue", playerEventQueue);
     }
 
     @Test

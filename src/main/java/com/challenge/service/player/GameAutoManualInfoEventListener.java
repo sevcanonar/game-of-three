@@ -1,5 +1,6 @@
 package com.challenge.service.player;
 
+import com.challenge.config.GameStartInformation;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.PlayerEventType;
 import com.challenge.constants.PlayerType;
@@ -15,21 +16,22 @@ public class GameAutoManualInfoEventListener extends GameEventsListener implemen
 
     public GameAutoManualInfoEventListener(PrintWriter out, BufferedReader in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
         super(out, in, clientSocket, playerEventQueue);
+        playerType = PlayerType.NONE;
     }
 
     @Override
     public void onGameEvent(GameEvent gameEvent) {
         try {
             out.println(gameEvent.getPlayerOutput());
-            String userInput;
-            while (true) {
+            String userInput = null;
+            while (playerType.equals(PlayerType.NONE)) {
                 out.println("Please enter one of {A, M}");
                 userInput = in.readLine();
-                if (userInput != null && userInput.equals("A") || userInput.equals("M")) {
+                if (userInput != null && (userInput.equals("A") || userInput.equals("M"))) {
                     break;
                 }
             }
-            PlayerType playerType = userInput.equals("A") ? PlayerType.AUTO : PlayerType.MANUAL;
+            playerType = userInput.equals("A") ? PlayerType.AUTO : PlayerType.MANUAL;
             playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.AUTO_MANUAL_SELECTION, userInput, playerType));
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.challenge.service.player;
 
+import com.challenge.config.GameStartInformation;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.GameYourTurnEvent;
@@ -23,6 +24,8 @@ import java.net.Socket;
 public class GameYourTurnEventListenerTests {
     @InjectMocks
     GameYourTurnEventListener gameYourTurnEventListener;
+    @InjectMocks
+    GameStartInformation gameStartInformation;
 
     @Mock
     PrintWriter out;
@@ -55,6 +58,7 @@ public class GameYourTurnEventListenerTests {
         GameYourTurnEvent gameEvent = new GameYourTurnEvent("s", "Play your turn", PlayerType.MANUAL, 5);
         Mockito.doReturn("1").when(in).readLine();
         Mockito.doReturn(new PlayerEventQueueMock().getPlayerEventQueueEmptyMock()).when(playerEventQueue).getInstance();
+        gameStartInformation.setInstance(true);
         gameYourTurnEventListener.onGameEvent(gameEvent);
         Mockito.verify(playerEventQueue, Mockito.times(1)).getInstance();
         Mockito.verify(out, Mockito.times(2)).println(Mockito.anyString());

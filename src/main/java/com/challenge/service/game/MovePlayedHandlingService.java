@@ -1,10 +1,10 @@
 package com.challenge.service.game;
 
+import com.challenge.config.GameStartInformation;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.*;
 import com.challenge.model.PlayerMoveInfo;
 import com.challenge.service.player.GameEventsConsumer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -12,11 +12,13 @@ import java.util.Map;
 @Service
 public class MovePlayedHandlingService implements PlayerEventHandlingService {
 
-    @Autowired
     GameHandlingServiceHelper gameHandlingServiceHelper;
-
-    @Autowired
     GameEventsConsumer gameEventsConsumer;
+
+    public MovePlayedHandlingService(GameHandlingServiceHelper gameHandlingServiceHelper, GameEventsConsumer gameEventsConsumer) {
+        this.gameHandlingServiceHelper = gameHandlingServiceHelper;
+        this.gameEventsConsumer = gameEventsConsumer;
+    }
 
     @Override
     public void handle(PlayerEvent playerEvent, Map<String, PlayerMoveInfo> playerInformation) {
@@ -24,17 +26,19 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
         //update for current move
         PlayerMoveInfo playedPlayerMoveInfo = playerInformation.get(playerEvent.getUserName());
         playedPlayerMoveInfo.setMoveValue(Integer.valueOf(playerEvent.getPlayerInput()));
-        if (playedPlayerMoveInfo.getMoveInput() == null)
+        if (playedPlayerMoveInfo.getMoveInput() == null) {
             playedPlayerMoveInfo.setStarted(true);
-        else
+            GameStartInformation.setInstance(true);
+        } else {
             playedPlayerMoveInfo.setStarted(false);
+        }
         playerInformation.put(playerEvent.getUserName(), playedPlayerMoveInfo);
         //calculate
         Integer moveOutput;
         if (playedPlayerMoveInfo.getMoveInput() != null) {
             Integer moveSum = (playedPlayerMoveInfo.getMoveInput() + playedPlayerMoveInfo.getMoveValue());
             if (Math.floorMod(moveSum, 3) != 0) {
-                gameEventsConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), "Your input does not result in a number divisable with 3, please enter again."));
+                gameEventsConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), "Your input does not result in a number divisable with 3, please enter again.", playerEvent.getPlayerType()));
                 return;
             } else
                 moveOutput = moveSum / 3;
@@ -44,6 +48,7 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
         gameEventsConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "You played with :" + playedPlayerMoveInfo.getMoveValue() + ". And output is " + moveOutput));
         //update for opponent
         if (moveOutput.equals(1)) {
+            GameStartInformation.setInstance(false);
             gameEventsConsumer.createEvent(new GameOverEvent(playerEvent.getUserName(), "You Won!"));
             gameEventsConsumer.createEvent(new GameOverEvent(opponentName, "Your opponent succeeded to calculate 1. You Lost!"));
             playerInformation.clear();

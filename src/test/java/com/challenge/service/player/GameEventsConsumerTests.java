@@ -1,7 +1,10 @@
 package com.challenge.service.player;
 
 import com.challenge.config.GameListenersPerPlayer;
+import com.challenge.config.GameStartInformation;
+import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.GameListenerType;
+import com.challenge.constants.PlayerType;
 import com.challenge.event.GameEvent;
 import com.challenge.event.GameYourTurnEvent;
 import com.challenge.service.mock.GameListenersPerPlayerMock;
@@ -15,6 +18,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Map;
 
 @SpringBootTest
@@ -23,7 +29,22 @@ public class GameEventsConsumerTests {
     GameEventsConsumer gameEventsConsumer;
 
     @Mock
+    GameYourTurnEventListener gameYourTurnEventListener;
+
+    @Mock
     GameListenersPerPlayer gameListenersPerPlayer;
+
+    @Mock
+    GameListener gameListener;
+
+    @Mock
+    PrintWriter out;
+    @Mock
+    BufferedReader in;
+    @Mock
+    Socket clientSocket;
+    @Mock
+    PlayerEventQueue playerEventQueue;
 
 
     @Before
@@ -54,15 +75,4 @@ public class GameEventsConsumerTests {
         Assert.assertEquals(1, gameListenersPerPlayer.getInstance().get("a").size());
     }
 
-    @Ignore
-    @Test
-    public void doCreateGameYourTurnEvent() {
-        Map<String, Map<GameListenerType, GameListener>> gameListenerPerPlayer = new GameListenersPerPlayerMock().getGameListenersOneMock();
-        Mockito.doReturn(gameListenerPerPlayer).when(gameListenersPerPlayer).getInstance();
-        GameEvent gameEvent = new GameYourTurnEvent("a", "Opponent start value is " + 5);
-        GameYourTurnEventListener gameYourTurnEventListener = Mockito.mock(GameYourTurnEventListener.class);
-        Mockito.doNothing().when(gameYourTurnEventListener).onGameEvent(Mockito.any());
-        gameEventsConsumer.createEvent(gameEvent);
-        Mockito.verify(gameYourTurnEventListener, Mockito.times(1)).onGameEvent(Mockito.any());
-    }
 }

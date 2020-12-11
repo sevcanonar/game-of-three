@@ -16,8 +16,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 
-@Service
-public class MultiplePlayerMeeterService implements Runnable {
+public class MultiplePlayerMeeterService extends Thread {
+
     PlayerEventQueue playerEventQueue;
     private Socket clientSocket;
     private GameEventsConsumer gameEventsConsumer;

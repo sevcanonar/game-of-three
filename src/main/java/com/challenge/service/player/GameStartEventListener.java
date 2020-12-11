@@ -1,5 +1,6 @@
 package com.challenge.service.player;
 
+import com.challenge.config.GameStartInformation;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.PlayerEventType;
 import com.challenge.constants.PlayerType;
@@ -22,13 +23,13 @@ public class GameStartEventListener extends GameEventsListener implements GameLi
     public void onGameEvent(GameEvent gameEvent) {
         try {
             out.println(gameEvent.getPlayerOutput());
-            String userInput;
+            String userInput = null;
             if (gameEvent.getPlayerType().equals(PlayerType.AUTO)) {
                 out.println("Playing automatically.");
                 userInput = String.valueOf(new Random().nextInt(Integer.MAX_VALUE) + 2);
                 out.println(userInput);
             } else {
-                while (true) {
+                while (!GameStartInformation.getInstance()) {
                     out.println("Please enter a number >=2");
                     userInput = in.readLine();
                     if (userInput != null && isValidInteger(userInput)) {
@@ -36,7 +37,7 @@ public class GameStartEventListener extends GameEventsListener implements GameLi
                     }
                 }
             }
-            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput, playerType));
+            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput, gameEvent.getPlayerType()));
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

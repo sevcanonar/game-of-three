@@ -4,7 +4,6 @@ package com.challenge.service.game;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.event.PlayerEvent;
 import com.challenge.model.PlayerMoveInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -15,22 +14,22 @@ import java.util.concurrent.BlockingQueue;
 public class PlayerEventConsumerService extends Thread {
     private static Map<String, PlayerMoveInfo> playerInformation = new HashMap<>(2);
 
-    @Autowired
     UserLoginHandlingService userLoginHandlingService;
-
-    @Autowired
     AutoManualSelectionHandlingService autoManualSelectionHandlingService;
-
-    @Autowired
     MovePlayedHandlingService movePlayedHandlingService;
-
-    @Autowired
     PlayerEventQueue playerEventQueue;
+    BlockingQueue<PlayerEvent> playerEvents;
+
+    public PlayerEventConsumerService(UserLoginHandlingService userLoginHandlingService, AutoManualSelectionHandlingService autoManualSelectionHandlingService, MovePlayedHandlingService movePlayedHandlingService, PlayerEventQueue playerEventQueue) {
+        this.userLoginHandlingService = userLoginHandlingService;
+        this.autoManualSelectionHandlingService = autoManualSelectionHandlingService;
+        this.movePlayedHandlingService = movePlayedHandlingService;
+        this.playerEventQueue = playerEventQueue;
+        this.playerEvents = this.playerEventQueue.getInstance();
+    }
 
     @Override
     public void run() {
-        BlockingQueue<PlayerEvent> playerEvents = playerEventQueue.getInstance();
-
         while (true) {
             try {
                 PlayerEvent playerEvent = playerEvents.take();

@@ -1,6 +1,7 @@
 package com.challenge.service.player;
 
 import com.challenge.config.PlayerEventQueue;
+import com.challenge.constants.PlayerType;
 import com.challenge.event.GameEvent;
 
 import java.io.BufferedReader;

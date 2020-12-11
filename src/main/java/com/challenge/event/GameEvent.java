@@ -33,16 +33,8 @@ public class GameEvent {
         return to;
     }
 
-    public void setTo(String to) {
-        this.to = to;
-    }
-
     public String getPlayerOutput() {
         return playerOutput;
-    }
-
-    public void setPlayerOutput(String playerOutput) {
-        this.playerOutput = playerOutput;
     }
 
     public PlayerType getPlayerType() {

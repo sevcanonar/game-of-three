@@ -1,13 +1,15 @@
 package com.challenge.integrator;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GameSocketServer {
 
-    @Autowired
-    AsyncThreadService asyncThreadService;
+    private final AsyncThreadService asyncThreadService;
+
+    public GameSocketServer(AsyncThreadService asyncThreadService) {
+        this.asyncThreadService = asyncThreadService;
+    }
 
     public void start() {
         while (true)
