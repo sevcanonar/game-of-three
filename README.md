@@ -38,7 +38,8 @@ game events are created which then be listened by the previously created event l
 **Environment**
 
 java 8
-telnet or netcat
+
+telnet or netcat (a tcp network connection tool)
 
 You should first start the application and this means that you started the game.
 
