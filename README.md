@@ -1,6 +1,6 @@
 # game-of-three
 
-####**Problem Definition**
+**Problem Definition**
 The Goal is to implement a game with two independent units – the players –
 communicating with each other using an API.
 
@@ -10,15 +10,19 @@ between adding one of {-1, 0, 1} to get to a number that is divisible by 3. Divi
 resulting whole number is then sent back to the original sender. The same rules are applied until one player reaches the number 1(after the division).
 
 Players can choose between playing manually or automatically.
-####**Solution Design Process**
+
+**Solution Design Process**
+
 I first intended to create 2 different Spring Boot projects. The first one was supposed 
 to run as different instances for each player. The second project was going to be the "game"
 and both players were going to communicate over the game. I actually implemented these 2 projects.
 They are in the git history of this repository. 
 
 Then, I decided on one Spring Boot project
-####**Solution**
-####**Rules**
+
+**Solution**
+
+**Rules**
 
 ~~~~
 - The game of three provides socket interfaces for 2 players.
