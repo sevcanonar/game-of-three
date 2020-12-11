@@ -37,22 +37,24 @@ game events are created which then be listened by the previously created event l
 
 **Environment**
 
-Requirements
 java 8
-a tcp network tool
+telnet or netcat
 
 You should first start the application and this means that you started the game.
 
 **Cleaning:** 
+
 `gradlew clean` or `.\gradlew clean`
 
-**Building:** 
+**Building:** ,
+
 `gradlew build` or `.\gradlew build`
 
 gradlew is a wrapper for gradle and it automatically 
 downloads the gradle version specified in the properties
 
 **Running:** 
+
 `java -jar game-of-three-0.0.1-SNAPSHOT.jar` or run it on your IDE (Eclipse, IntelliJ etc.)
 
 gradlew is a wrapper for gradle and it automatically downloads the gradle version specified in the properties
