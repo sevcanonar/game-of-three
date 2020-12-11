@@ -12,7 +12,6 @@ public class GameListenersPerPlayer {
 
     private static Map<String, Map<GameListenerType, GameListener>> gameListeners = new HashMap<>();
 
-
     protected GameListenersPerPlayer() {
     }
 

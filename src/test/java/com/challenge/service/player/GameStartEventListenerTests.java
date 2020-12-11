@@ -4,18 +4,15 @@ import com.challenge.config.GameStartInformation;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.GameStartEvent;
-import com.challenge.event.GameYourTurnEvent;
 import com.challenge.service.mock.PlayerEventQueueMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +36,6 @@ public class GameStartEventListenerTests {
     Socket clientSocket;
     @Mock
     PlayerEventQueue playerEventQueue;
-
 
 
     @Before

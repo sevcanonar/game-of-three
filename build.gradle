@@ -23,8 +23,4 @@ allprojects {
         implementation 'org.springframework:spring-messaging'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
-
-    test {
-        useJUnitPlatform()
-    }
 }

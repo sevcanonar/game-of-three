@@ -11,6 +11,7 @@ public class PlayerInformationMock {
         playerInformation.put("a", new StartedGameInfoMock());
         return playerInformation;
     }
+
     public Map<String, PlayerMoveInfo> getStartedTwoPlayerInformation() {
         Map<String, PlayerMoveInfo> playerInformation = new HashMap<>();
         playerInformation.put("a", new StartedGameInfoMock());
@@ -35,12 +36,14 @@ public class PlayerInformationMock {
         Map<String, PlayerMoveInfo> playerInformation = new HashMap<>();
         return playerInformation;
     }
+
     public Map<String, PlayerMoveInfo> getTwoPlayersNotStartedPlayerInformation() {
         Map<String, PlayerMoveInfo> playerInformation = new HashMap<>();
         playerInformation.put("b", new NotStartedGameInfoMock());
         playerInformation.put("a", new NotStartedGameInfoMock());
         return playerInformation;
     }
+
     public Map<String, PlayerMoveInfo> getTwoPlayersBeforeWinningInformation() {
         Map<String, PlayerMoveInfo> playerInformation = new HashMap<>();
         playerInformation.put("b", new StartedGameInfoMock());

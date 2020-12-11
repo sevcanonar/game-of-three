@@ -4,9 +4,7 @@ import com.challenge.constants.GameListenerType;
 import com.challenge.service.player.GameListener;
 import com.challenge.service.player.GameYourTurnEventListener;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class GameListenersPerPlayerMock {

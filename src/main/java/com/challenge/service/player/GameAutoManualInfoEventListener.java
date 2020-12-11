@@ -1,6 +1,5 @@
 package com.challenge.service.player;
 
-import com.challenge.config.GameStartInformation;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.PlayerEventType;
 import com.challenge.constants.PlayerType;

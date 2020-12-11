@@ -1,6 +1,6 @@
 package com.challenge.constants;
 
-public enum  GameListenerType {
+public enum GameListenerType {
     START,
     AUTOMAN,
     INFO,

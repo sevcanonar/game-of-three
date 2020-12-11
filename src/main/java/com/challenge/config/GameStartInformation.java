@@ -4,7 +4,6 @@ public class GameStartInformation {
 
     private static boolean isStarted = false;
 
-
     protected GameStartInformation() {
     }
 

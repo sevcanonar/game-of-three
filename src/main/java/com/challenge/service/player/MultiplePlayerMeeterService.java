@@ -6,7 +6,6 @@ import com.challenge.constants.GameListenerType;
 import com.challenge.constants.PlayerEventType;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.PlayerEvent;
-import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;

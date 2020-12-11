@@ -1,16 +1,11 @@
 package com.challenge.service.player;
 
 import com.challenge.config.GameListenersPerPlayer;
-import com.challenge.config.GameStartInformation;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.GameListenerType;
-import com.challenge.constants.PlayerType;
-import com.challenge.event.GameEvent;
-import com.challenge.event.GameYourTurnEvent;
 import com.challenge.service.mock.GameListenersPerPlayerMock;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -21,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Map;
 
 @SpringBootTest
 public class GameEventsConsumerTests {
@@ -53,21 +47,22 @@ public class GameEventsConsumerTests {
     }
 
     @Test
-    public void doRegisterWhenGameListenerMapEmpty(){
+    public void doRegisterWhenGameListenerMapEmpty() {
         Mockito.doReturn(new GameListenersPerPlayerMock().getGameListenersEmptyMock()).when(gameListenersPerPlayer).getInstance();
         gameEventsConsumer.register("a", GameListenerType.YOURTURN, new GameYourTurnEventListener(null, null, null, null));
         Assert.assertEquals(1, gameListenersPerPlayer.getInstance().size());
     }
 
     @Test
-    public void doRegisterWhenGameListenerMapNotEmptyWithSameUser(){
+    public void doRegisterWhenGameListenerMapNotEmptyWithSameUser() {
         Mockito.doReturn(new GameListenersPerPlayerMock().getGameListenersOneMock()).when(gameListenersPerPlayer).getInstance();
         gameEventsConsumer.register("a", GameListenerType.START, new GameStartEventListener(null, null, null, null));
         Assert.assertEquals(1, gameListenersPerPlayer.getInstance().size());
         Assert.assertEquals(2, gameListenersPerPlayer.getInstance().get("a").size());
     }
+
     @Test
-    public void doRegisterWhenGameListenerMapNotEmptyWithDifferentUser(){
+    public void doRegisterWhenGameListenerMapNotEmptyWithDifferentUser() {
         Mockito.doReturn(new GameListenersPerPlayerMock().getGameListenersOneMock()).when(gameListenersPerPlayer).getInstance();
         gameEventsConsumer.register("b", GameListenerType.YOURTURN, new GameYourTurnEventListener(null, null, null, null));
         Assert.assertEquals(2, gameListenersPerPlayer.getInstance().size());

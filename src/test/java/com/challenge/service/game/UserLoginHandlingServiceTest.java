@@ -1,7 +1,10 @@
 package com.challenge.service.game;
 
 import com.challenge.model.PlayerMoveInfo;
-import com.challenge.service.mock.*;
+import com.challenge.service.mock.NotStartedGameInfoMock;
+import com.challenge.service.mock.PlayerInformationMock;
+import com.challenge.service.mock.StartedGameInfoMock;
+import com.challenge.service.mock.UserLoginPlayerEventMock;
 import com.challenge.service.player.GameEventsConsumer;
 import org.junit.Assert;
 import org.junit.Before;
@@ -40,6 +43,7 @@ public class UserLoginHandlingServiceTest {
         Assert.assertEquals(2, playerInformation.size());
         Assert.assertEquals(playerInformation.get("log").getMoveInput(), playerInformation.get("a").getMoveValue());
     }
+
     @Test
     public void doHandleWhenOpponentWithOtherNameExistsAndNotStarted() {
         Map<String, PlayerMoveInfo> playerInformation = new PlayerInformationMock().getNotStartedPlayerInformation();
@@ -61,6 +65,7 @@ public class UserLoginHandlingServiceTest {
         Assert.assertEquals(1, playerInformation.size());
         Assert.assertNull(playerInformation.get("log").getMoveInput());
     }
+
     @Test
     public void doHandleWhenOpponentExistWithSameName() {
         Map<String, PlayerMoveInfo> playerInformation = new PlayerInformationMock().getNotStartedPlayerInformation();

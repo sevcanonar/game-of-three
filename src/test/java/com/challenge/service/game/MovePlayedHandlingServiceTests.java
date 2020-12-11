@@ -1,7 +1,10 @@
 package com.challenge.service.game;
 
 import com.challenge.model.PlayerMoveInfo;
-import com.challenge.service.mock.*;
+import com.challenge.service.mock.FirstMovePlayedPlayerEventMock;
+import com.challenge.service.mock.MiddleMovePlayedPlayerEventMock;
+import com.challenge.service.mock.MiddleMovePlayedWrongNumberPlayerEventMock;
+import com.challenge.service.mock.PlayerInformationMock;
 import com.challenge.service.player.GameEventsConsumer;
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,6 +42,7 @@ public class MovePlayedHandlingServiceTests {
         Assert.assertEquals(java.util.Optional.of(5), java.util.Optional.of(playerInformation.get("a").getMoveValue()));
         Mockito.verify(gameEventsConsumer, Mockito.times(2)).createEvent(Mockito.any());
     }
+
     @Test
     public void doHandleWhenItIsWinningMove() {
         Map<String, PlayerMoveInfo> playerInformation = new PlayerInformationMock().getTwoPlayersBeforeWinningInformation();

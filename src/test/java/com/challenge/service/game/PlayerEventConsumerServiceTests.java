@@ -4,7 +4,6 @@ import com.challenge.config.PlayerEventQueue;
 import com.challenge.event.PlayerEvent;
 import com.challenge.service.mock.AutoManualSelectionPlayerEventMock;
 import com.challenge.service.mock.MiddleMovePlayedPlayerEventMock;
-import com.challenge.service.mock.PlayerEventQueueMock;
 import com.challenge.service.mock.UserLoginPlayerEventMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +18,6 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingDeque;
 
 @SpringBootTest
 public class PlayerEventConsumerServiceTests {

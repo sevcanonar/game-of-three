@@ -5,6 +5,6 @@ import com.challenge.model.PlayerMoveInfo;
 public class MiddleGameInfoMock extends PlayerMoveInfo {
 
     public MiddleGameInfoMock() {
-        super(14,0,false);
+        super(14, 0, false);
     }
 }

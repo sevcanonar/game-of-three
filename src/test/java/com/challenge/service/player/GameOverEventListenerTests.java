@@ -1,9 +1,7 @@
 package com.challenge.service.player;
 
 import com.challenge.config.PlayerEventQueue;
-import com.challenge.constants.PlayerType;
 import com.challenge.event.GameOverEvent;
-import com.challenge.event.GameYourTurnEvent;
 import com.challenge.service.mock.PlayerEventQueueMock;
 import org.junit.Assert;
 import org.junit.Before;

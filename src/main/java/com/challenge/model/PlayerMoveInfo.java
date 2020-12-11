@@ -17,6 +17,7 @@ public class PlayerMoveInfo {
         this.isStarted = isStarted;
         this.playerType = playerType;
     }
+
     public PlayerMoveInfo(Integer moveInput, Integer moveValue, boolean isStarted) {
         this.moveInput = moveInput;
         this.moveValue = moveValue;

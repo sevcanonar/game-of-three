@@ -1,14 +1,13 @@
 package com.challenge.event;
 
-
 import com.challenge.constants.PlayerType;
 
 public class GameEvent {
 
-    private String to;
-    private String playerOutput;
     PlayerType playerType;
     Integer playerInput;
+    private String to;
+    private String playerOutput;
 
 
     public GameEvent(String to, String playerOutput) {

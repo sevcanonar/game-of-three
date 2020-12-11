@@ -8,7 +8,6 @@ import com.challenge.event.GameYourTurnEvent;
 import com.challenge.event.PlayerEvent;
 import com.challenge.model.PlayerMoveInfo;
 import com.challenge.service.player.GameEventsConsumer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -16,10 +15,13 @@ import java.util.Map;
 @Service
 public class AutoManualSelectionHandlingService implements PlayerEventHandlingService {
 
-    @Autowired
     GameHandlingServiceHelper gameHandlingServiceHelper;
-    @Autowired
     GameEventsConsumer gameEventsConsumer;
+
+    public AutoManualSelectionHandlingService(GameHandlingServiceHelper gameHandlingServiceHelper, GameEventsConsumer gameEventsConsumer) {
+        this.gameHandlingServiceHelper = gameHandlingServiceHelper;
+        this.gameEventsConsumer = gameEventsConsumer;
+    }
 
     @Override
     public void handle(PlayerEvent playerEvent, Map<String, PlayerMoveInfo> playerInformation) {
