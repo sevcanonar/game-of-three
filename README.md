@@ -41,8 +41,6 @@ java 8
 
 telnet or netcat (a tcp network connection tool)
 
-You should first start the application and this means that you started the game.
-
 **Cleaning:** 
 
 `gradlew clean` or `.\gradlew clean`
@@ -55,6 +53,8 @@ gradlew is a wrapper for gradle and it automatically
 downloads the gradle version specified in the properties
 
 **Running:** 
+
+You should first start the application and this means that you started the game. Start the application by
 
 `java -jar game-of-three-0.0.1-SNAPSHOT.jar` or run it on your IDE (Eclipse, IntelliJ etc.)
 
