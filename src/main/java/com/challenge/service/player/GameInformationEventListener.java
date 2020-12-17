@@ -6,10 +6,11 @@ import com.challenge.event.GameEvent;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class GameInformationEventListener extends GameEventsListener implements GameListener {
 
-    public GameInformationEventListener(PrintWriter out, BufferedReader in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
+    public GameInformationEventListener(PrintWriter out, Scanner in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
         super(out, in, clientSocket, playerEventQueue);
     }
 

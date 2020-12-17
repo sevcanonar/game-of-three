@@ -2,7 +2,11 @@ package com.challenge.service.game;
 
 import com.challenge.config.GameStartInformation;
 import com.challenge.constants.PlayerType;
-import com.challenge.event.*;
+import com.challenge.constants.PlayerMessages;
+import com.challenge.event.GameInformationEvent;
+import com.challenge.event.GameOverEvent;
+import com.challenge.event.GameYourTurnEvent;
+import com.challenge.event.PlayerEvent;
 import com.challenge.model.PlayerMoveInfo;
 import com.challenge.service.player.GameEventsConsumer;
 import org.springframework.stereotype.Service;
@@ -33,37 +37,40 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
             playedPlayerMoveInfo.setStarted(false);
         }
         playerInformation.put(playerEvent.getUserName(), playedPlayerMoveInfo);
-        //calculate
-        Integer moveOutput;
-        if (playedPlayerMoveInfo.getMoveInput() != null) {
-            Integer moveSum = (playedPlayerMoveInfo.getMoveInput() + playedPlayerMoveInfo.getMoveValue());
-            if (Math.floorMod(moveSum, 3) != 0) {
-                gameEventsConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), "Your input does not result in a number divisable with 3, please enter again.", playerEvent.getPlayerType()));
+        Integer moveOutput = calculateMoveOutput(playerEvent, playedPlayerMoveInfo);
+        switch (moveOutput) {
+            case -1:
+                gameEventsConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), PlayerMessages.INPUT_DOES_NOT_RESULT_IN, playerEvent.getPlayerType()));
                 return;
-            } else
-                moveOutput = moveSum / 3;
-        } else
-            moveOutput = Integer.valueOf(playerEvent.getPlayerInput());
-        //inform player
-        gameEventsConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "You played with :" + playedPlayerMoveInfo.getMoveValue() + ". And output is " + moveOutput));
-        //update for opponent
-        if (moveOutput.equals(1)) {
-            GameStartInformation.setInstance(false);
-            gameEventsConsumer.createEvent(new GameOverEvent(playerEvent.getUserName(), "You Won!"));
-            gameEventsConsumer.createEvent(new GameOverEvent(opponentName, "Your opponent succeeded to calculate 1. You Lost!"));
-            playerInformation.clear();
-        } else {
-            if (opponentName != null) {
-                PlayerMoveInfo opponentPlayerMoveInfo = playerInformation.get(opponentName);
-                opponentPlayerMoveInfo.setMoveInput(moveOutput);
-                playerInformation.put(opponentName, opponentPlayerMoveInfo);
-                if (opponentPlayerMoveInfo.getPlayerType().equals(PlayerType.NONE)) {
-                    gameEventsConsumer.createEvent(new GameAutoManualInformationEvent(opponentName, "Select your play type"));
-                } else
-                    gameEventsConsumer.createEvent(new GameYourTurnEvent(opponentName, "Your opponent played. Your input is :" + moveOutput, opponentPlayerMoveInfo.getPlayerType(), moveOutput));
-            }
+            case 1:
+                GameStartInformation.setInstance(false);
+                gameEventsConsumer.createEvent(new GameOverEvent(playerEvent.getUserName(), PlayerMessages.YOU_WON));
+                gameEventsConsumer.createEvent(new GameOverEvent(opponentName, PlayerMessages.OPPONENT_SUCCEEDED_TO_CALCULATE_1_YOU_LOST));
+                playerInformation.clear();
+                break;
+            default:
+                if (opponentName != null) {
+                    PlayerMoveInfo opponentPlayerMoveInfo = playerInformation.get(opponentName);
+                    opponentPlayerMoveInfo.setMoveInput(moveOutput);
+                    playerInformation.put(opponentName, opponentPlayerMoveInfo);
+                    if (!opponentPlayerMoveInfo.getPlayerType().equals(PlayerType.NONE)) {
+                        gameEventsConsumer.createEvent(new GameYourTurnEvent(opponentName, PlayerMessages.OPPONENT_PLAYED_YOUR_INPUT_IS + moveOutput, opponentPlayerMoveInfo.getPlayerType(), moveOutput));
+                    }
+                    break;
+                }
         }
     }
 
-
+    public Integer calculateMoveOutput(PlayerEvent playerEvent, PlayerMoveInfo playedPlayerMoveInfo) {
+        Integer moveOutput = -1;
+        if (playedPlayerMoveInfo.getMoveInput() != null) {
+            Integer moveSum = (playedPlayerMoveInfo.getMoveInput() + playedPlayerMoveInfo.getMoveValue());
+            if (Math.floorMod(moveSum, 3) == 0) {
+                moveOutput = moveSum / 3;
+                gameEventsConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "You played with :" + playedPlayerMoveInfo.getMoveValue() + ". And output is " + moveOutput));
+            }
+        } else
+            moveOutput = Integer.valueOf(playerEvent.getPlayerInput());
+        return moveOutput;
+    }
 }

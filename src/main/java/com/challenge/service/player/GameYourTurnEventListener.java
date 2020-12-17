@@ -2,20 +2,29 @@ package com.challenge.service.player;
 
 import com.challenge.config.GameStartInformation;
 import com.challenge.config.PlayerEventQueue;
+import com.challenge.constants.ExceptionalMessages;
 import com.challenge.constants.PlayerEventType;
+import com.challenge.constants.PlayerMessages;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.GameEvent;
 import com.challenge.event.PlayerEvent;
+import com.challenge.service.game.PlayerEventConsumerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 
 public class GameYourTurnEventListener extends GameEventsListener implements GameListener {
 
-    public GameYourTurnEventListener(PrintWriter out, BufferedReader in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
+    private static final Logger LOG =   LoggerFactory.getLogger(GameYourTurnEventListener.class);
+
+    public GameYourTurnEventListener(PrintWriter out, Scanner in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
         super(out, in, clientSocket, playerEventQueue);
     }
 
@@ -25,22 +34,22 @@ public class GameYourTurnEventListener extends GameEventsListener implements Gam
             out.println(gameEvent.getPlayerOutput());
             String userInput = null;
             if (gameEvent.getPlayerType().equals(PlayerType.AUTO)) {
-                out.println("Playing automatically.");
+                out.println(PlayerMessages.PLAYING_AUTOMATICALLY);
                 userInput = playRightMove(gameEvent.getPlayerInput());
                 out.println(userInput);
             } else {
                 while (GameStartInformation.getInstance()) {
-                    out.println("Please enter one of {1,0,-1}");
-                    userInput = in.readLine();
-                    if (userInput != null && (userInput.equals("1") || userInput.equals("0") || userInput.equals("-1"))) {
+
+                    out.println(PlayerMessages.ENTER_ONE_OF_1_0_1);
+                    userInput = in.nextLine();
+                    if ((userInput.equals(PlayerMessages.ONE) || userInput.equals(PlayerMessages.ZERO) || userInput.equals(PlayerMessages.MINUS_ONE))) {
                         break;
                     }
                 }
             }
             playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput, gameEvent.getPlayerType()));
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOG.debug(ExceptionalMessages.INPUT_IS_SKIPPED);
         }
     }
 

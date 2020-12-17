@@ -2,8 +2,11 @@ package com.challenge.service.game;
 
 
 import com.challenge.config.PlayerEventQueue;
+import com.challenge.constants.ExceptionalMessages;
 import com.challenge.event.PlayerEvent;
 import com.challenge.model.PlayerMoveInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -12,6 +15,7 @@ import java.util.concurrent.BlockingQueue;
 
 @Service
 public class PlayerEventConsumerService extends Thread {
+    private static final Logger LOG =   LoggerFactory.getLogger(PlayerEventConsumerService.class);
     private static Map<String, PlayerMoveInfo> playerInformation = new HashMap<>(2);
 
     UserLoginHandlingService userLoginHandlingService;
@@ -47,8 +51,10 @@ public class PlayerEventConsumerService extends Thread {
                         movePlayedHandlingService.handle(playerEvent, playerInformation);
                         break;
                 }
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                LOG.debug(ExceptionalMessages.GAME_THREAD_INTERRUPTED, e.getMessage());
+                System.exit(-1);
             }
         }
     }

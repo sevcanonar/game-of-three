@@ -6,17 +6,18 @@ import com.challenge.constants.PlayerType;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 
 public class GameEventsListener {
 
     PlayerType playerType;
     PrintWriter out;
-    BufferedReader in;
+    Scanner in;
     Socket clientSocket;
     PlayerEventQueue playerEventQueue;
 
-    public GameEventsListener(PrintWriter out, BufferedReader in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
+    public GameEventsListener(PrintWriter out, Scanner in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
         this.out = out;
         this.in = in;
         this.clientSocket = clientSocket;

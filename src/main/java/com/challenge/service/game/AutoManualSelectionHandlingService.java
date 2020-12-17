@@ -2,6 +2,7 @@ package com.challenge.service.game;
 
 import com.challenge.config.GameStartInformation;
 import com.challenge.constants.PlayerType;
+import com.challenge.constants.PlayerMessages;
 import com.challenge.event.GameInformationEvent;
 import com.challenge.event.GameStartEvent;
 import com.challenge.event.GameYourTurnEvent;
@@ -28,7 +29,7 @@ public class AutoManualSelectionHandlingService implements PlayerEventHandlingSe
         PlayerMoveInfo startedGameInfo = gameHandlingServiceHelper.startedGameInformation(playerInformation);
         PlayerMoveInfo userInfo = playerInformation.get(playerEvent.getUserName());
         userInfo.setMoveInput(startedGameInfo.getMoveValue());
-        if (playerEvent.getPlayerInput().equals("A")) {
+        if (playerEvent.getPlayerInput().equals(PlayerMessages.AUTO)) {
             userInfo.setPlayerType(PlayerType.AUTO);
         } else {
             userInfo.setPlayerType(PlayerType.MANUAL);
@@ -36,10 +37,10 @@ public class AutoManualSelectionHandlingService implements PlayerEventHandlingSe
         playerInformation.put(playerEvent.getUserName(), userInfo);
 
         if (GameStartInformation.getInstance()) {
-            gameEventsConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "There is a game already started."));
-            gameEventsConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), "Opponent start value is " + startedGameInfo.getMoveValue(), userInfo.getPlayerType(), startedGameInfo.getMoveValue()));
+            gameEventsConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), PlayerMessages.THERE_IS_A_GAME_ALREADY_STARTED));
+            gameEventsConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), PlayerMessages.OPPONENT_START_VALUE_IS + startedGameInfo.getMoveValue(), userInfo.getPlayerType(), startedGameInfo.getMoveValue()));
         } else {
-            gameEventsConsumer.createEvent(new GameStartEvent(playerEvent.getUserName(), "Enter a value to start the game.", userInfo.getPlayerType()));
+            gameEventsConsumer.createEvent(new GameStartEvent(playerEvent.getUserName(), PlayerMessages.ENTER_A_VALUE_TO_START_THE_GAME, userInfo.getPlayerType()));
         }
     }
 }
