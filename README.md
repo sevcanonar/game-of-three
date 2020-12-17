@@ -56,7 +56,7 @@ downloads the gradle version specified in the properties
 
 You should first start the application and this means that you started the game. Start the application by
 
-`java -jar game-of-three-0.0.1-SNAPSHOT.jar` or run it on your IDE (Eclipse, IntelliJ etc.)
+`java -jar game-of-three-0.0.1-SNAPSHOT.jar` or run it on your IDE (Eclipse, IntelliJ etc.) by using the main(String[] args) method in Application class as entrypoint.
 
 gradlew is a wrapper for gradle and it automatically downloads the gradle version specified in the properties
 
@@ -79,4 +79,174 @@ or
 - If there is a game started by another user, the connected player has only one option to be included in the already started game.
 
 **Demo**
+**Auto players**
 
+Player 1:
+``````````
+telnet localhost 6666
+Please enter your user name:
+bb
+You logged in.
+Select your play type
+Please enter one of {A, M}
+A
+Enter a value to start the game.
+Playing automatically.
+1267556604
+Your opponent played. Your input is :422518868
+Playing automatically.
+1
+You played with :1. And output is 140839623
+Your opponent played. Your input is :46946541
+Playing automatically.
+0
+You played with :0. And output is 15648847
+Your opponent played. Your input is :5216282
+Playing automatically.
+1
+You played with :1. And output is 1738761
+Your opponent played. Your input is :579587
+Playing automatically.
+1
+You played with :1. And output is 193196
+Your opponent played. Your input is :64399
+Playing automatically.
+-1
+You played with :-1. And output is 21466
+Your opponent played. Your input is :7155
+Playing automatically.
+0
+You played with :0. And output is 2385
+Your opponent played. Your input is :795
+Playing automatically.
+0
+You played with :0. And output is 265
+Your opponent played. Your input is :88
+Playing automatically.
+-1
+You played with :-1. And output is 29
+Your opponent played. Your input is :10
+Playing automatically.
+-1``````````
+
+
+Connection to host lost. 
+``````````
+
+Player 2
+``````````
+telnet localhost 6666
+Please enter your user name:
+bb
+You logged in.
+Select your play type
+Please enter one of {A, M}
+A
+Enter a value to start the game.
+Playing automatically.
+1267556604
+Your opponent played. Your input is :422518868
+Playing automatically.
+1
+You played with :1. And output is 140839623
+Your opponent played. Your input is :46946541
+Playing automatically.
+0
+You played with :0. And output is 15648847
+Your opponent played. Your input is :5216282
+Playing automatically.
+1
+You played with :1. And output is 1738761
+Your opponent played. Your input is :579587
+Playing automatically.
+1
+You played with :1. And output is 193196
+Your opponent played. Your input is :64399
+Playing automatically.
+-1
+You played with :-1. And output is 21466
+Your opponent played. Your input is :7155
+Playing automatically.
+0
+You played with :0. And output is 2385
+Your opponent played. Your input is :795
+Playing automatically.
+0
+You played with :0. And output is 265
+Your opponent played. Your input is :88
+Playing automatically.
+-1
+You played with :-1. And output is 29
+Your opponent played. Your input is :10
+Playing automatically.
+-1
+
+
+Connection to host lost.
+``````````
+
+**Manual Players**
+
+Player 1
+``````````
+telnet localhost 6666
+Please enter your user name:
+ss
+You logged in.
+Select your play type
+Please enter one of {A, M}
+M
+Enter a value to start the game.
+Please enter a number >=2
+Your opponent played. Your input is :5
+Please enter one of {1,0,-1}
+1
+You played with :1. And output is 2
+Your opponent succeeded to calculate 1. You Lost!
+
+
+Connection to host lost.
+``````````
+Player 2
+``````````
+Please enter your user name:
+gg
+You logged in.
+Select your play type
+Please enter one of {A, M}
+M
+Enter a value to start the game.
+Please enter a number >=2
+5
+Your opponent played. Your input is :2
+Please enter one of {1,0,-1}
+1
+You played with :1. And output is 1
+You Won!
+
+
+Connection to host lost.
+``````````
+
+Any combination of players can play together, one of them can be a manual player and the other can be Auto Player.
+
+Exceptional Scenarios
+``````````
+Please enter your user name:
+dd
+There is a game already started.
+Select your play type
+Please enter one of {A, M}
+You logged in.
+XX
+Please enter one of {A, M}
+M
+There is a game already started.
+Opponent start value is 849952171
+Please enter one of {1,0,-1}
+2
+Please enter one of {1,0,-1}
+0
+Your input does not result in a number divisable with 3, please enter again.
+Please enter one of {1,0,-1}
+``````````
