@@ -38,9 +38,8 @@ game events are created which then be listened by the previously created event l
 **Environment**
 
 java 8
-telnet or netcat
 
-You should first start the application and this means that you started the game.
+telnet or netcat (a tcp network connection tool)
 
 **Cleaning:** 
 
@@ -54,6 +53,8 @@ gradlew is a wrapper for gradle and it automatically
 downloads the gradle version specified in the properties
 
 **Running:** 
+
+You should first start the application and this means that you started the game. Start the application by
 
 `java -jar game-of-three-0.0.1-SNAPSHOT.jar` or run it on your IDE (Eclipse, IntelliJ etc.)
 
@@ -76,3 +77,6 @@ or
 - For start move, the number should be >=2.
 - When game is over the connections are closed. If player wants to play again they should connect again.
 - If there is a game started by another user, the connected player has only one option to be included in the already started game.
+
+**Demo**
+
