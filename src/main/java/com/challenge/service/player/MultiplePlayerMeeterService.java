@@ -7,7 +7,6 @@ import com.challenge.constants.PlayerEventType;
 import com.challenge.constants.PlayerMessages;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.PlayerEvent;
-import com.challenge.service.game.PlayerEventConsumerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

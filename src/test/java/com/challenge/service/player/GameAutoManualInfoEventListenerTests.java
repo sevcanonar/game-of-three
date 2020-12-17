@@ -13,10 +13,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 
 @SpringBootTest
@@ -27,7 +27,7 @@ public class GameAutoManualInfoEventListenerTests {
     @Mock
     PrintWriter out;
     @Mock
-    BufferedReader in;
+    Scanner in;
     @Mock
     Socket clientSocket;
     @Mock
@@ -43,11 +43,11 @@ public class GameAutoManualInfoEventListenerTests {
     public void doHandleOnGameEvent() throws IOException {
         GameAutoManualInformationEvent gameEvent = new GameAutoManualInformationEvent("s", "Auto");
         Mockito.doReturn(new PlayerEventQueueMock().getPlayerEventQueueEmptyMock()).when(playerEventQueue).getInstance();
-        Mockito.doReturn("A").when(in).readLine();
+        Mockito.doReturn("A").when(in).nextLine();
         gameAutoManualInfoEventListener.onGameEvent(gameEvent);
         Mockito.verify(playerEventQueue, Mockito.times(1)).getInstance();
         Mockito.verify(out, Mockito.times(2)).println(Mockito.anyString());
-        Mockito.verify(in, Mockito.times(1)).readLine();
+        Mockito.verify(in, Mockito.times(1)).nextLine();
         Assert.assertEquals(1, playerEventQueue.getInstance().size());
     }
 }

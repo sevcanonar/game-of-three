@@ -8,4 +8,7 @@ public class UserLoginPlayerEventMock extends PlayerEvent {
     public UserLoginPlayerEventMock() {
         super("log", PlayerEventType.USER_LOGIN, "a", PlayerType.NONE);
     }
+    public PlayerEvent UserLoginPlayerEventSameName() {
+        return new PlayerEvent("b", PlayerEventType.USER_LOGIN, "a", PlayerType.NONE);
+    }
 }

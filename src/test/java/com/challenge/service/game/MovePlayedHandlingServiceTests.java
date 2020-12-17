@@ -40,7 +40,7 @@ public class MovePlayedHandlingServiceTests {
         movePlayedHandlingService.handle(new FirstMovePlayedPlayerEventMock(), playerInformation);
         Assert.assertEquals(java.util.Optional.of(5), java.util.Optional.of(playerInformation.get("b").getMoveInput()));
         Assert.assertEquals(java.util.Optional.of(5), java.util.Optional.of(playerInformation.get("a").getMoveValue()));
-        Mockito.verify(gameEventsConsumer, Mockito.times(2)).createEvent(Mockito.any());
+        Mockito.verify(gameEventsConsumer, Mockito.times(1)).createEvent(Mockito.any());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class MovePlayedHandlingServiceTests {
         Assert.assertEquals(2, playerInformation.size());
         Assert.assertEquals(java.util.Optional.of(0), java.util.Optional.of(playerInformation.get("a").getMoveValue()));
         Assert.assertEquals(java.util.Optional.of(5), java.util.Optional.of(playerInformation.get("b").getMoveInput()));
-        Mockito.verify(gameEventsConsumer, Mockito.times(1)).createEvent(Mockito.any());
+        Mockito.verify(gameEventsConsumer, Mockito.times(2)).createEvent(Mockito.any());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class MovePlayedHandlingServiceTests {
         Assert.assertEquals(2, playerInformation.size());
         Assert.assertEquals(java.util.Optional.of(1), java.util.Optional.of(playerInformation.get("a").getMoveValue()));
         Assert.assertEquals(java.util.Optional.of(5), java.util.Optional.of(playerInformation.get("b").getMoveInput()));
-        Mockito.verify(gameEventsConsumer, Mockito.times(2)).createEvent(Mockito.any());
+        Mockito.verify(gameEventsConsumer, Mockito.times(1)).createEvent(Mockito.any());
     }
 
 }

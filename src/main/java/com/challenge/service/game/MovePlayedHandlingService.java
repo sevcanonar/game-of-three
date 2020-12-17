@@ -38,6 +38,8 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
         }
         playerInformation.put(playerEvent.getUserName(), playedPlayerMoveInfo);
         Integer moveOutput = calculateMoveOutput(playerEvent, playedPlayerMoveInfo);
+        gameEventsConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "You played with :" + playedPlayerMoveInfo.getMoveValue() + ". And output is " + moveOutput));
+
         switch (moveOutput) {
             case -1:
                 gameEventsConsumer.createEvent(new GameYourTurnEvent(playerEvent.getUserName(), PlayerMessages.INPUT_DOES_NOT_RESULT_IN, playerEvent.getPlayerType()));
@@ -67,10 +69,10 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
             Integer moveSum = (playedPlayerMoveInfo.getMoveInput() + playedPlayerMoveInfo.getMoveValue());
             if (Math.floorMod(moveSum, 3) == 0) {
                 moveOutput = moveSum / 3;
-                gameEventsConsumer.createEvent(new GameInformationEvent(playerEvent.getUserName(), "You played with :" + playedPlayerMoveInfo.getMoveValue() + ". And output is " + moveOutput));
             }
-        } else
+        } else{
             moveOutput = Integer.valueOf(playerEvent.getPlayerInput());
+        }
         return moveOutput;
     }
 }

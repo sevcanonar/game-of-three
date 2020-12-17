@@ -22,5 +22,6 @@ allprojects {
         implementation 'org.springframework:spring-websocket'
         implementation 'org.springframework:spring-messaging'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.mockito:mockito-inline'
     }
 }

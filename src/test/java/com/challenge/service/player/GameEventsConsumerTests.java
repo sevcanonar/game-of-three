@@ -13,9 +13,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 @SpringBootTest
 public class GameEventsConsumerTests {
@@ -34,7 +34,7 @@ public class GameEventsConsumerTests {
     @Mock
     PrintWriter out;
     @Mock
-    BufferedReader in;
+    Scanner in;
     @Mock
     Socket clientSocket;
     @Mock
@@ -49,24 +49,24 @@ public class GameEventsConsumerTests {
     @Test
     public void doRegisterWhenGameListenerMapEmpty() {
         Mockito.doReturn(new GameListenersPerPlayerMock().getGameListenersEmptyMock()).when(gameListenersPerPlayer).getInstance();
-        gameEventsConsumer.register("a", GameListenerType.YOURTURN, new GameYourTurnEventListener(null, null, null, null));
+        gameEventsConsumer.registerAllListeners("a", null, null, null, null);
         Assert.assertEquals(1, gameListenersPerPlayer.getInstance().size());
     }
 
     @Test
     public void doRegisterWhenGameListenerMapNotEmptyWithSameUser() {
         Mockito.doReturn(new GameListenersPerPlayerMock().getGameListenersOneMock()).when(gameListenersPerPlayer).getInstance();
-        gameEventsConsumer.register("a", GameListenerType.START, new GameStartEventListener(null, null, null, null));
+        gameEventsConsumer.registerAllListeners("a", null, null, null, null);
         Assert.assertEquals(1, gameListenersPerPlayer.getInstance().size());
-        Assert.assertEquals(2, gameListenersPerPlayer.getInstance().get("a").size());
+        Assert.assertEquals(5, gameListenersPerPlayer.getInstance().get("a").size());
     }
 
     @Test
     public void doRegisterWhenGameListenerMapNotEmptyWithDifferentUser() {
         Mockito.doReturn(new GameListenersPerPlayerMock().getGameListenersOneMock()).when(gameListenersPerPlayer).getInstance();
-        gameEventsConsumer.register("b", GameListenerType.YOURTURN, new GameYourTurnEventListener(null, null, null, null));
+        gameEventsConsumer.registerAllListeners("b", null, null, null, null);
         Assert.assertEquals(2, gameListenersPerPlayer.getInstance().size());
-        Assert.assertEquals(1, gameListenersPerPlayer.getInstance().get("b").size());
+        Assert.assertEquals(5, gameListenersPerPlayer.getInstance().get("b").size());
         Assert.assertEquals(1, gameListenersPerPlayer.getInstance().get("a").size());
     }
 

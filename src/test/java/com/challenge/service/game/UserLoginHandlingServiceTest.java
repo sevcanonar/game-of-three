@@ -69,9 +69,9 @@ public class UserLoginHandlingServiceTest {
     @Test
     public void doHandleWhenOpponentExistWithSameName() {
         Map<String, PlayerMoveInfo> playerInformation = new PlayerInformationMock().getNotStartedPlayerInformation();
-        Mockito.doReturn("log").when(gameHandlingServiceHelper).getCurrentUserName(Mockito.any());
-        userLoginHandlingService.handle(new UserLoginPlayerEventMock(), playerInformation);
-        Mockito.verify(gameEventsConsumer, Mockito.times(1)).createEvent(Mockito.any());
+        Mockito.doReturn(new NotStartedGameInfoMock()).when(gameHandlingServiceHelper).startedGameInformation(Mockito.any());
+        userLoginHandlingService.handle(new UserLoginPlayerEventMock().UserLoginPlayerEventSameName(), playerInformation);
+        Mockito.verify(gameEventsConsumer, Mockito.times(3)).createEvent(Mockito.any());
         Assert.assertEquals(1, playerInformation.size());
     }
 }

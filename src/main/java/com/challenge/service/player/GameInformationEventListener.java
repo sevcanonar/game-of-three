@@ -3,7 +3,6 @@ package com.challenge.service.player;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.event.GameEvent;
 
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;

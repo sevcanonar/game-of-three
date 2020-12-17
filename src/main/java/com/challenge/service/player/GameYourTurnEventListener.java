@@ -8,13 +8,9 @@ import com.challenge.constants.PlayerMessages;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.GameEvent;
 import com.challenge.event.PlayerEvent;
-import com.challenge.service.game.PlayerEventConsumerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -39,7 +35,6 @@ public class GameYourTurnEventListener extends GameEventsListener implements Gam
                 out.println(userInput);
             } else {
                 while (GameStartInformation.getInstance()) {
-
                     out.println(PlayerMessages.ENTER_ONE_OF_1_0_1);
                     userInput = in.nextLine();
                     if ((userInput.equals(PlayerMessages.ONE) || userInput.equals(PlayerMessages.ZERO) || userInput.equals(PlayerMessages.MINUS_ONE))) {

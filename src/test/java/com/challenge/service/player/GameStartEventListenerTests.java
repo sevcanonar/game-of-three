@@ -14,10 +14,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 @SpringBootTest
 public class GameStartEventListenerTests {
@@ -31,7 +31,7 @@ public class GameStartEventListenerTests {
     @Mock
     PrintWriter out;
     @Mock
-    BufferedReader in;
+    Scanner in;
     @Mock
     Socket clientSocket;
     @Mock
@@ -50,20 +50,20 @@ public class GameStartEventListenerTests {
         gameStartEventListener.onGameEvent(gameEvent);
         Mockito.verify(playerEventQueue, Mockito.times(1)).getInstance();
         Mockito.verify(out, Mockito.times(3)).println(Mockito.anyString());
-        Mockito.verify(in, Mockito.times(0)).readLine();
+        Mockito.verify(in, Mockito.times(0)).nextLine();
         Assert.assertEquals(1, playerEventQueue.getInstance().size());
     }
 
     @Test
     public void doHandleGameStartEventWhenManualAndInputSuitable() throws IOException {
         GameStartEvent gameEvent = new GameStartEvent("s", "Start", PlayerType.MANUAL);
-        Mockito.doReturn("5").when(in).readLine();
+        Mockito.doReturn("5").when(in).nextLine();
         Mockito.doReturn(new PlayerEventQueueMock().getPlayerEventQueueEmptyMock()).when(playerEventQueue).getInstance();
         gameStartInformation.setInstance(false);
         gameStartEventListener.onGameEvent(gameEvent);
         Mockito.verify(playerEventQueue, Mockito.times(1)).getInstance();
         Mockito.verify(out, Mockito.times(2)).println(Mockito.anyString());
-        Mockito.verify(in, Mockito.times(1)).readLine();
+        Mockito.verify(in, Mockito.times(1)).nextLine();
         Assert.assertEquals(1, playerEventQueue.getInstance().size());
     }
 

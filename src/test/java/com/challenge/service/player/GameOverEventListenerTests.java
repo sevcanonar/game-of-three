@@ -12,10 +12,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 
 @SpringBootTest
@@ -26,7 +26,7 @@ public class GameOverEventListenerTests {
     @Mock
     PrintWriter out;
     @Mock
-    BufferedReader in;
+    Scanner in;
     @Mock
     Socket clientSocket;
     @Mock
@@ -49,7 +49,7 @@ public class GameOverEventListenerTests {
         Mockito.verify(out, Mockito.times(1)).println(Mockito.anyString());
         Mockito.verify(out, Mockito.times(1)).close();
         Mockito.verify(clientSocket, Mockito.times(1)).close();
-        Mockito.verify(in, Mockito.times(0)).readLine();
+        Mockito.verify(in, Mockito.times(0)).nextLine();
         Assert.assertEquals(0, playerEventQueue.getInstance().size());
     }
 }

@@ -3,7 +3,6 @@ package com.challenge.service.player;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.ExceptionalMessages;
 import com.challenge.event.GameEvent;
-import com.challenge.service.game.PlayerEventConsumerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

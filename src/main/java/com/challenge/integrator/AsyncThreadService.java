@@ -1,6 +1,7 @@
 package com.challenge.integrator;
 
 import com.challenge.config.PlayerEventQueue;
+import com.challenge.constants.ExceptionalMessages;
 import com.challenge.service.player.GameEventsConsumer;
 import com.challenge.service.player.MultiplePlayerMeeterService;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class AsyncThreadService {
         try {
             threadPoolExecutor.execute(new MultiplePlayerMeeterService(serverSocket, gameEventsConsumer, playerEventQueue));
         } catch (Exception e) {
-            LOG.debug("Game is interrupted");
+            LOG.debug(ExceptionalMessages.GAME_IS_INTERRUPTED_EXTERNALLY);
             System.exit(-1);
         }
     }
