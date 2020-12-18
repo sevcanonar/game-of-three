@@ -79,6 +79,7 @@ or
 - If there is a game started by another user, the connected player has only one option to be included in the already started game.
 
 **Demo**
+
 **Auto players**
 
 Player 1:
@@ -230,7 +231,8 @@ Connection to host lost.
 
 Any combination of players can play together, one of them can be a manual player and the other can be Auto Player.
 
-Exceptional Scenarios
+**Exceptional Scenarios**
+
 ``````````
 Please enter your user name:
 dd
