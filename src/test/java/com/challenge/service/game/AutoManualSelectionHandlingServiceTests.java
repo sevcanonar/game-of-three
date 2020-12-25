@@ -6,7 +6,6 @@ import com.challenge.service.mock.AutoManualSelectionPlayerEventMock;
 import com.challenge.service.mock.NotStartedGameInfoMock;
 import com.challenge.service.mock.PlayerInformationMock;
 import com.challenge.service.mock.StartedGameInfoMock;
-import com.challenge.service.player.GameEventsConsumer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,9 +28,6 @@ public class AutoManualSelectionHandlingServiceTests {
     @Mock
     GameHandlingServiceHelper gameHandlingServiceHelper;
 
-    @Mock
-    GameEventsConsumer gameEventsConsumer;
-
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
@@ -46,7 +42,6 @@ public class AutoManualSelectionHandlingServiceTests {
         autoManualSelectionHandlingService.handle(new AutoManualSelectionPlayerEventMock(), playerInformation);
         Assert.assertEquals(2, playerInformation.size());
         Assert.assertEquals(java.util.Optional.of(5), java.util.Optional.of(playerInformation.get("a").getMoveInput()));
-        Mockito.verify(gameEventsConsumer, Mockito.times(2)).createEvent(Mockito.any());
     }
 
     @Test
@@ -59,6 +54,5 @@ public class AutoManualSelectionHandlingServiceTests {
         Assert.assertEquals(2, playerInformation.size());
         Assert.assertNull(playerInformation.get("a").getMoveInput());
         Assert.assertNull(playerInformation.get("auto").getMoveInput());
-        Mockito.verify(gameEventsConsumer, Mockito.times(1)).createEvent(Mockito.any());
     }
 }

@@ -5,6 +5,7 @@ import com.challenge.event.PlayerEvent;
 import com.challenge.service.mock.AutoManualSelectionPlayerEventMock;
 import com.challenge.service.mock.MiddleMovePlayedPlayerEventMock;
 import com.challenge.service.mock.UserLoginPlayerEventMock;
+import com.challenge.service.player.GameEventsConsumer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -14,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -35,6 +37,9 @@ public class PlayerEventConsumerServiceTests {
     MovePlayedHandlingService movePlayedHandlingService;
 
     @Mock
+    GameEventsConsumer gameEventsConsumer;
+
+    @Mock
     PlayerEventQueue playerEventQueue;
 
     @Mock
@@ -53,7 +58,7 @@ public class PlayerEventConsumerServiceTests {
     public void testRunWithLogin() throws InterruptedException {
         Mockito.doReturn(playerEvents).when(playerEventQueue).getInstance();
         Mockito.doReturn(new UserLoginPlayerEventMock(), null).when(playerEvents).take();
-        Mockito.doNothing().when(userLoginHandlingService).handle(Mockito.any(PlayerEvent.class), Mockito.any(Map.class));
+        Mockito.doReturn(new ArrayList<>()).when(userLoginHandlingService).handle(Mockito.any(PlayerEvent.class), Mockito.any(Map.class));
         playerEventConsumerService.run();
         Mockito.verify(userLoginHandlingService, Mockito.times(1)).handle(Mockito.any(PlayerEvent.class), Mockito.any(Map.class));
     }
@@ -61,7 +66,7 @@ public class PlayerEventConsumerServiceTests {
     @Test
     public void testRunWithMovePlayed() throws InterruptedException {
         Mockito.doReturn(new MiddleMovePlayedPlayerEventMock(), null).when(playerEvents).take();
-        Mockito.doNothing().when(movePlayedHandlingService).handle(Mockito.any(PlayerEvent.class), Mockito.any(Map.class));
+        Mockito.doReturn(new ArrayList<>()).when(movePlayedHandlingService).handle(Mockito.any(PlayerEvent.class), Mockito.any(Map.class));
         playerEventConsumerService.run();
         Mockito.verify(movePlayedHandlingService, Mockito.times(1)).handle(Mockito.any(PlayerEvent.class), Mockito.any(Map.class));
     }
@@ -69,7 +74,7 @@ public class PlayerEventConsumerServiceTests {
     @Test
     public void testRunWithAutoManualSelection() throws InterruptedException {
         Mockito.doReturn(new AutoManualSelectionPlayerEventMock(), null).when(playerEvents).take();
-        Mockito.doNothing().when(autoManualSelectionHandlingService).handle(Mockito.any(PlayerEvent.class), Mockito.any(Map.class));
+        Mockito.doReturn(new ArrayList<>()).when(autoManualSelectionHandlingService).handle(Mockito.any(PlayerEvent.class), Mockito.any(Map.class));
         playerEventConsumerService.run();
         Mockito.verify(autoManualSelectionHandlingService, Mockito.times(1)).handle(Mockito.any(PlayerEvent.class), Mockito.any(Map.class));
     }
