@@ -79,6 +79,7 @@ or
 - If there is a game started by another user, the connected player has only one option to be included in the already started game.
 
 **Demo**
+
 **Auto players**
 
 Player 1:
@@ -230,7 +231,8 @@ Connection to host lost.
 
 Any combination of players can play together, one of them can be a manual player and the other can be Auto Player.
 
-Exceptional Scenarios
+**Exceptional Scenarios**
+
 ``````````
 Please enter your user name:
 dd
@@ -250,3 +252,12 @@ Please enter one of {1,0,-1}
 Your input does not result in a number divisable with 3, please enter again.
 Please enter one of {1,0,-1}
 ``````````
+Notice that: 
+
+-There is no exit strategy when a game starts. For everything to work properly, any started game should be finalized. 
+
+-Closing the terminal(s) which are connected to the game is not caught.
+
+-If a manually playing player closes the terminal, the game waits for their input infinitely unless the application is restarted. 
+
+-Players should reconnect to the game to play again.
