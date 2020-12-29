@@ -42,7 +42,7 @@ public class GameYourTurnEventListener extends GameEventsListener implements Gam
                     }
                 }
             }
-            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput, gameEvent.getPlayerType()));
+            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput));
         } catch (Exception e) {
             LOG.debug(ExceptionalMessages.INPUT_IS_SKIPPED);
         }

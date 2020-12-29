@@ -48,7 +48,7 @@ public class MultiplePlayerMeeterService extends Thread {
                 String userName = in.nextLine();
                 if (userName != null) {
                     if (gameEventsRegisterer.getGameListeners(userName) == null) {
-                        playerEvents.put(new PlayerEvent(userName, PlayerEventType.USER_LOGIN, userName, PlayerType.NONE));
+                        playerEvents.put(new PlayerEvent(userName, PlayerEventType.USER_LOGIN, userName));
                         gameEventsRegisterer.registerAllListeners(userName, out, in, clientSocket, playerEventQueue);
                         break;
                     } else {

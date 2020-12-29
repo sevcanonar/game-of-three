@@ -1,7 +1,6 @@
 package com.challenge.service.player;
 
 import com.challenge.config.PlayerEventQueue;
-import com.challenge.constants.PlayerType;
 
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -10,7 +9,6 @@ import java.util.Scanner;
 
 public class GameEventsListener {
 
-    PlayerType playerType;
     PrintWriter out;
     Scanner in;
     Socket clientSocket;

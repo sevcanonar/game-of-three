@@ -11,11 +11,10 @@ public class PlayerEvent {
     private String playerInput;
     private PlayerType playerType;
 
-    public PlayerEvent(String userName, PlayerEventType playerEventType, String playerInput, PlayerType playerType) {
+    public PlayerEvent(String userName, PlayerEventType playerEventType, String playerInput) {
         this.userName = userName;
         this.playerEventType = playerEventType;
         this.playerInput = playerInput;
-        this.playerType = playerType;
     }
 
     public String getUserName() {
