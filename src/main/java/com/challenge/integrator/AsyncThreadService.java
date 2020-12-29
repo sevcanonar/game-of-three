@@ -2,7 +2,7 @@ package com.challenge.integrator;
 
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.ExceptionalMessages;
-import com.challenge.service.player.GameEventsConsumer;
+import com.challenge.service.player.GameEventsRegisterer;
 import com.challenge.service.player.MultiplePlayerMeeterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,19 +19,19 @@ public class AsyncThreadService {
 
     ThreadPoolExecutor threadPoolExecutor;
     ServerSocket serverSocket;
-    GameEventsConsumer gameEventsConsumer;
+    GameEventsRegisterer gameEventsRegisterer;
     PlayerEventQueue playerEventQueue;
 
-    public AsyncThreadService(@Qualifier("taskExecutor") ThreadPoolExecutor threadPoolExecutor, @Qualifier("serverSocket") ServerSocket serverSocket, GameEventsConsumer gameEventsConsumer, PlayerEventQueue playerEventQueue) {
+    public AsyncThreadService(@Qualifier("taskExecutor") ThreadPoolExecutor threadPoolExecutor, @Qualifier("serverSocket") ServerSocket serverSocket, GameEventsRegisterer gameEventsRegisterer, PlayerEventQueue playerEventQueue) {
         this.threadPoolExecutor = threadPoolExecutor;
         this.serverSocket = serverSocket;
-        this.gameEventsConsumer = gameEventsConsumer;
+        this.gameEventsRegisterer = gameEventsRegisterer;
         this.playerEventQueue = playerEventQueue;
     }
 
     public void executeAsynchronously() {
         try {
-            threadPoolExecutor.execute(new MultiplePlayerMeeterService(serverSocket, gameEventsConsumer, playerEventQueue));
+            threadPoolExecutor.execute(new MultiplePlayerMeeterService(serverSocket, gameEventsRegisterer, playerEventQueue));
         } catch (Exception e) {
             LOG.debug(ExceptionalMessages.GAME_IS_INTERRUPTED_EXTERNALLY);
             System.exit(-1);

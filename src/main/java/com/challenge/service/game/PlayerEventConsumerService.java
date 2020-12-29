@@ -5,12 +5,12 @@ import com.challenge.config.PlayerEventQueue;
 import com.challenge.event.GameEvent;
 import com.challenge.event.PlayerEvent;
 import com.challenge.model.PlayerMoveInfo;
-import com.challenge.service.player.GameEventsConsumer;
+import com.challenge.service.player.GameEventsCreator;
+import com.challenge.service.player.GameEventsRegisterer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,15 +26,15 @@ public class PlayerEventConsumerService extends Thread {
     MovePlayedHandlingService movePlayedHandlingService;
     PlayerEventQueue playerEventQueue;
     BlockingQueue<PlayerEvent> playerEvents;
-    GameEventsConsumer gameEventsConsumer;
+    GameEventsCreator gameEventsCreator;
 
-    public PlayerEventConsumerService(UserLoginHandlingService userLoginHandlingService, AutoManualSelectionHandlingService autoManualSelectionHandlingService, MovePlayedHandlingService movePlayedHandlingService, PlayerEventQueue playerEventQueue, GameEventsConsumer gameEventsConsumer) {
+    public PlayerEventConsumerService(UserLoginHandlingService userLoginHandlingService, AutoManualSelectionHandlingService autoManualSelectionHandlingService, MovePlayedHandlingService movePlayedHandlingService, PlayerEventQueue playerEventQueue, GameEventsCreator gameEventsCreator) {
         this.userLoginHandlingService = userLoginHandlingService;
         this.autoManualSelectionHandlingService = autoManualSelectionHandlingService;
         this.movePlayedHandlingService = movePlayedHandlingService;
         this.playerEventQueue = playerEventQueue;
         this.playerEvents = this.playerEventQueue.getInstance();
-        this.gameEventsConsumer = gameEventsConsumer;
+        this.gameEventsCreator = gameEventsCreator;
     }
 
     @Override
@@ -66,6 +66,6 @@ public class PlayerEventConsumerService extends Thread {
 
     private void sendGameEvents(List<GameEvent> gameEvents) {
         for (GameEvent gameEvent : gameEvents)
-            gameEventsConsumer.createEvent(gameEvent);
+            gameEventsCreator.createEvent(gameEvent);
     }
 }

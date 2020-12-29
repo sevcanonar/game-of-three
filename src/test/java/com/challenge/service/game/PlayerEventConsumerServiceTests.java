@@ -5,7 +5,7 @@ import com.challenge.event.PlayerEvent;
 import com.challenge.service.mock.AutoManualSelectionPlayerEventMock;
 import com.challenge.service.mock.MiddleMovePlayedPlayerEventMock;
 import com.challenge.service.mock.UserLoginPlayerEventMock;
-import com.challenge.service.player.GameEventsConsumer;
+import com.challenge.service.player.GameEventsRegisterer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -37,7 +37,7 @@ public class PlayerEventConsumerServiceTests {
     MovePlayedHandlingService movePlayedHandlingService;
 
     @Mock
-    GameEventsConsumer gameEventsConsumer;
+    GameEventsRegisterer gameEventsRegisterer;
 
     @Mock
     PlayerEventQueue playerEventQueue;
