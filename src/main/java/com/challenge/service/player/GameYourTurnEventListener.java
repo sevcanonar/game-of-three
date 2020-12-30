@@ -37,12 +37,12 @@ public class GameYourTurnEventListener extends GameEventsListener implements Gam
                 while (GameStartInformation.getInstance()) {
                     out.println(PlayerMessages.ENTER_ONE_OF_1_0_1);
                     userInput = in.nextLine();
-                    if ((userInput.equals(PlayerMessages.ONE) || userInput.equals(PlayerMessages.ZERO) || userInput.equals(PlayerMessages.MINUS_ONE))) {
+                    if (userInput!=null && ((userInput.equals(PlayerMessages.ONE) || userInput.equals(PlayerMessages.ZERO) || userInput.equals(PlayerMessages.MINUS_ONE)))) {
                         break;
                     }
                 }
             }
-            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput, gameEvent.getPlayerType()));
+            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput));
         } catch (Exception e) {
             LOG.debug(ExceptionalMessages.INPUT_IS_SKIPPED);
         }

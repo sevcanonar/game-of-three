@@ -41,7 +41,7 @@ public class GameStartEventListener extends GameEventsListener implements GameLi
                     }
                 }
             }
-            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput, gameEvent.getPlayerType()));
+            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput));
         } catch (InterruptedException e) {
             LOG.error(ExceptionalMessages.ERROR_WHILE_STARTING_THE_GAME, e.getMessage());
             Thread.currentThread().interrupt();

@@ -26,7 +26,12 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
         String opponentName = gameHandlingServiceHelper.getOpponent(playerEvent.getUserName(), playerInformation);
         //update for current move
         PlayerMoveInfo playedPlayerMoveInfo = playerInformation.get(playerEvent.getUserName());
-        playedPlayerMoveInfo.setMoveValue(Integer.valueOf(playerEvent.getPlayerInput()));
+        try {
+            playedPlayerMoveInfo.setMoveValue(Integer.valueOf(playerEvent.getPlayerInput()));
+        } catch (NumberFormatException n) {
+            gameEvents.add(new GameYourTurnEvent(playerEvent.getUserName(), PlayerMessages.INPUT_IS_NOT_SUITABLE, playedPlayerMoveInfo.getPlayerType()));
+            return gameEvents;
+        }
         if (playedPlayerMoveInfo.getMoveInput() == null) {
             playedPlayerMoveInfo.setStarted(true);
             GameStartInformation.setInstance(true);
@@ -39,8 +44,8 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
 
         switch (moveOutput) {
             case -1:
-                gameEvents.add(new GameYourTurnEvent(playerEvent.getUserName(), PlayerMessages.INPUT_DOES_NOT_RESULT_IN, playerEvent.getPlayerType()));
-                return new ArrayList<>();
+                gameEvents.add(new GameYourTurnEvent(playerEvent.getUserName(), PlayerMessages.INPUT_DOES_NOT_RESULT_IN, playedPlayerMoveInfo.getPlayerType()));
+                break;
             case 1:
                 GameStartInformation.setInstance(false);
                 gameEvents.add(new GameOverEvent(playerEvent.getUserName(), PlayerMessages.YOU_WON));
@@ -57,6 +62,7 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
                     }
                     break;
                 }
+                break;
         }
         return gameEvents;
     }

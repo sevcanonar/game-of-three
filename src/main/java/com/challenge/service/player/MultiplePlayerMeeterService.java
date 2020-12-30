@@ -23,12 +23,12 @@ public class MultiplePlayerMeeterService extends Thread {
 
     PlayerEventQueue playerEventQueue;
     Socket clientSocket;
-    GameEventsConsumer gameEventsConsumer;
+    GameEventsRegisterer gameEventsRegisterer;
 
-    public MultiplePlayerMeeterService(ServerSocket socket, GameEventsConsumer gameEventsConsumer, PlayerEventQueue playerEventQueue) {
+    public MultiplePlayerMeeterService(ServerSocket socket, GameEventsRegisterer gameEventsRegisterer, PlayerEventQueue playerEventQueue) {
         try {
             this.clientSocket = socket.accept();
-            this.gameEventsConsumer = gameEventsConsumer;
+            this.gameEventsRegisterer = gameEventsRegisterer;
             this.playerEventQueue = playerEventQueue;
         } catch (Exception e) {
             LOG.debug(ExceptionalMessages.SOCKET_IS_CLOSED_BY_GAME);
@@ -47,9 +47,9 @@ public class MultiplePlayerMeeterService extends Thread {
                 out.println(PlayerMessages.PLEASE_ENTER_YOUR_USER_NAME);
                 String userName = in.nextLine();
                 if (userName != null) {
-                    if (gameEventsConsumer.getGameListeners(userName) == null) {
-                        playerEvents.put(new PlayerEvent(userName, PlayerEventType.USER_LOGIN, userName, PlayerType.NONE));
-                        gameEventsConsumer.registerAllListeners(userName, out, in, clientSocket, playerEventQueue);
+                    if (gameEventsRegisterer.getGameListeners(userName) == null) {
+                        playerEvents.put(new PlayerEvent(userName, PlayerEventType.USER_LOGIN, userName));
+                        gameEventsRegisterer.registerAllListeners(userName, out, in, clientSocket, playerEventQueue);
                         break;
                     } else {
                         out.println(PlayerMessages.THERE_IS_ALREADY_A_USER_WITH_THIS_NAME);

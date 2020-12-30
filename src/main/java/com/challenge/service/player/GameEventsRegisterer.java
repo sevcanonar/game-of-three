@@ -14,12 +14,11 @@ import java.util.Map;
 import java.util.Scanner;
 
 @Component
-public class GameEventsConsumer {
+public class GameEventsRegisterer {
 
     GameListenersPerPlayer gameListenersPerPlayer;
-    GameListener gameListener;
 
-    public GameEventsConsumer(GameListenersPerPlayer gameListenersPerPlayer) {
+    public GameEventsRegisterer(GameListenersPerPlayer gameListenersPerPlayer) {
         this.gameListenersPerPlayer = gameListenersPerPlayer;
     }
 
@@ -48,24 +47,6 @@ public class GameEventsConsumer {
 
     public Map<GameListenerType, GameListener> getGameListeners(String userName) {
         return gameListenersPerPlayer.getInstance().get(userName);
-    }
-
-    @Async
-    public void createEvent(GameEvent gameEvent) {
-        Map<GameListenerType, GameListener> gameListenerMapForUser = gameListenersPerPlayer.getInstance().get(gameEvent.getTo());
-        if (gameEvent instanceof GameYourTurnEvent) {
-            gameListener = gameListenerMapForUser.get(GameListenerType.YOURTURN);
-        } else if (gameEvent instanceof GameInformationEvent) {
-            gameListener = gameListenerMapForUser.get(GameListenerType.INFO);
-        } else if (gameEvent instanceof GameOverEvent) {
-            gameListener = gameListenerMapForUser.get(GameListenerType.GAMEOVER);
-            deRegisterAllListeners(gameEvent.getTo());
-        } else if (gameEvent instanceof GameStartEvent) {
-            gameListener = gameListenerMapForUser.get(GameListenerType.START);
-        } else if (gameEvent instanceof GameAutoManualInformationEvent) {
-            gameListener = gameListenerMapForUser.get(GameListenerType.AUTOMAN);
-        }
-        gameListener.onGameEvent(gameEvent);
     }
 
 }
