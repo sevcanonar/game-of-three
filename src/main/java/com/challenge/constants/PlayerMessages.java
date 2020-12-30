@@ -16,6 +16,7 @@ public class PlayerMessages {
     public static final String OPPONENT_START_VALUE_IS = "Opponent start value is ";
     public static final String ENTER_A_VALUE_TO_START_THE_GAME = "Enter a value to start the game.";
     public static final String INPUT_DOES_NOT_RESULT_IN = "Your input does not result in a number divisable with 3, please enter again.";
+    public static final String INPUT_IS_NOT_SUITABLE = "Your input is not suitable, please enter again.";
     public static final String YOU_WON = "You Won!";
     public static final String OPPONENT_SUCCEEDED_TO_CALCULATE_1_YOU_LOST = "Your opponent succeeded to calculate 1. You Lost!";
     public static final String OPPONENT_PLAYED_YOUR_INPUT_IS = "Your opponent played. Your input is :";
