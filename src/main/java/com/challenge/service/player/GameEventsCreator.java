@@ -24,14 +24,14 @@ public class GameEventsCreator {
         Map<GameListenerType, GameListener> gameListenerMapForUser = gameListenersPerPlayer.getInstance().get(gameEvent.getTo());
         if (gameEvent instanceof GameYourTurnEvent) {
             gameListener = gameListenerMapForUser.get(GameListenerType.YOURTURN);
-        } else if (gameEvent instanceof GameInformationEvent) {
+        } if (gameEvent instanceof GameInformationEvent) {
             gameListener = gameListenerMapForUser.get(GameListenerType.INFO);
-        } else if (gameEvent instanceof GameOverEvent) {
+        } if (gameEvent instanceof GameOverEvent) {
             gameListener = gameListenerMapForUser.get(GameListenerType.GAMEOVER);
             gameEventsRegisterer.deRegisterAllListeners(gameEvent.getTo());
-        } else if (gameEvent instanceof GameStartEvent) {
+        } if (gameEvent instanceof GameStartEvent) {
             gameListener = gameListenerMapForUser.get(GameListenerType.START);
-        } else if (gameEvent instanceof GameAutoManualInformationEvent) {
+        } if (gameEvent instanceof GameAutoManualInformationEvent) {
             gameListener = gameListenerMapForUser.get(GameListenerType.AUTOMAN);
         }
         gameListener.onGameEvent(gameEvent);

@@ -62,6 +62,7 @@ public class MovePlayedHandlingService implements PlayerEventHandlingService {
                     }
                     break;
                 }
+                break;
         }
         return gameEvents;
     }
