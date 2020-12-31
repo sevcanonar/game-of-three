@@ -1,8 +1,9 @@
-package com.challenge.service.player;
+package com.challenge.service.player.eventlistener;
 
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.ExceptionalMessages;
 import com.challenge.event.GameEvent;
+import com.challenge.event.PlayerEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,12 +16,12 @@ public class GameOverEventListener extends GameEventsListener implements GameLis
 
     private static final Logger LOG =   LoggerFactory.getLogger(GameOverEventListener.class);
 
-    public GameOverEventListener(PrintWriter out, Scanner in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
-        super(out, in, clientSocket, playerEventQueue);
+    public GameOverEventListener(PrintWriter out, Scanner in, Socket clientSocket) {
+        super(out, in, clientSocket);
     }
 
     @Override
-    public void onGameEvent(GameEvent gameEvent) {
+    public PlayerEvent onGameEvent(GameEvent gameEvent) {
         out.println(gameEvent.getPlayerOutput());
         try {
             in.close();
@@ -30,5 +31,6 @@ public class GameOverEventListener extends GameEventsListener implements GameLis
             LOG.error(ExceptionalMessages.CLIENT_THREAD_INTERRUPTED, e.getMessage());
             Thread.currentThread().interrupt();
         }
+        return null;
     }
 }

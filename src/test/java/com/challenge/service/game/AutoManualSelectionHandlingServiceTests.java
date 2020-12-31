@@ -2,6 +2,9 @@ package com.challenge.service.game;
 
 import com.challenge.config.GameStartInformation;
 import com.challenge.model.PlayerMoveInfo;
+import com.challenge.service.game.eventbuilder.GameEventsBuilderMediator;
+import com.challenge.service.game.helper.PlayerInformationProvider;
+import com.challenge.service.game.eventhandler.AutoManualSelectionHandlingService;
 import com.challenge.service.mock.AutoManualSelectionPlayerEventMock;
 import com.challenge.service.mock.NotStartedGameInfoMock;
 import com.challenge.service.mock.PlayerInformationMock;
@@ -26,7 +29,10 @@ public class AutoManualSelectionHandlingServiceTests {
     GameStartInformation gameStartInformation;
 
     @Mock
-    GameHandlingServiceHelper gameHandlingServiceHelper;
+    PlayerInformationProvider playerInformationProvider;
+
+    @Mock
+    GameEventsBuilderMediator gameEventsBuilderMediator;
 
     @Before
     public void init() {
@@ -36,7 +42,7 @@ public class AutoManualSelectionHandlingServiceTests {
     @Test
     public void doHandleWhenStarted() {
         PlayerMoveInfo startedGameInfo = new StartedGameInfoMock();
-        Mockito.doReturn(startedGameInfo).when(gameHandlingServiceHelper).startedGameInformation(Mockito.any());
+        Mockito.doReturn(startedGameInfo).when(playerInformationProvider).startedGameInformation(Mockito.any());
         Map<String, PlayerMoveInfo> playerInformation = new PlayerInformationMock().getStartedTwoPlayerInformation();
         gameStartInformation.setInstance(true);
         autoManualSelectionHandlingService.handle(new AutoManualSelectionPlayerEventMock(), playerInformation);
@@ -47,7 +53,7 @@ public class AutoManualSelectionHandlingServiceTests {
     @Test
     public void doHandleWhenNotStarted() {
         PlayerMoveInfo notStartedGameInfo = new NotStartedGameInfoMock();
-        Mockito.doReturn(notStartedGameInfo).when(gameHandlingServiceHelper).startedGameInformation(Mockito.any());
+        Mockito.doReturn(notStartedGameInfo).when(playerInformationProvider).startedGameInformation(Mockito.any());
         Map<String, PlayerMoveInfo> playerInformation = new PlayerInformationMock().getNotStartedTwoPlayerInformation();
         gameStartInformation.setInstance(false);
         autoManualSelectionHandlingService.handle(new AutoManualSelectionPlayerEventMock(), playerInformation);

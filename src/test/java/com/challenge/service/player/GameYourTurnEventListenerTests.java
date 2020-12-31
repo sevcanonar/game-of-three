@@ -5,6 +5,7 @@ import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.PlayerType;
 import com.challenge.event.GameYourTurnEvent;
 import com.challenge.service.mock.PlayerEventQueueMock;
+import com.challenge.service.player.eventlistener.GameYourTurnEventListener;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,11 +32,8 @@ public class GameYourTurnEventListenerTests {
     PrintWriter out;
     @Mock
     Scanner in;
-
     @Mock
     Socket clientSocket;
-    @Mock
-    PlayerEventQueue playerEventQueue;
 
     @Before
     public void init() {
@@ -45,25 +43,19 @@ public class GameYourTurnEventListenerTests {
     @Test
     public void doHandleOnGameEventWhenAuto() throws IOException {
         GameYourTurnEvent gameEvent = new GameYourTurnEvent("s", "Play your turn", PlayerType.AUTO, 5);
-        Mockito.doReturn(new PlayerEventQueueMock().getPlayerEventQueueEmptyMock()).when(playerEventQueue).getInstance();
         gameYourTurnEventListener.onGameEvent(gameEvent);
-        Mockito.verify(playerEventQueue, Mockito.times(1)).getInstance();
         Mockito.verify(out, Mockito.times(3)).println(Mockito.anyString());
         Mockito.verify(in, Mockito.times(0)).nextLine();
-        Assert.assertEquals(1, playerEventQueue.getInstance().size());
     }
 
     @Test
     public void doHandleOnGameEventWhenManualAndInputSuitable() throws IOException {
         GameYourTurnEvent gameEvent = new GameYourTurnEvent("s", "Play your turn", PlayerType.MANUAL, 5);
         Mockito.doReturn("1").when(in).nextLine();
-        Mockito.doReturn(new PlayerEventQueueMock().getPlayerEventQueueEmptyMock()).when(playerEventQueue).getInstance();
         gameStartInformation.setInstance(true);
         gameYourTurnEventListener.onGameEvent(gameEvent);
-        Mockito.verify(playerEventQueue, Mockito.times(1)).getInstance();
         Mockito.verify(out, Mockito.times(2)).println(Mockito.anyString());
         Mockito.verify(in, Mockito.times(1)).nextLine();
-        Assert.assertEquals(1, playerEventQueue.getInstance().size());
     }
 }
 

@@ -3,6 +3,7 @@ package com.challenge.service.player;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.event.GameInformationEvent;
 import com.challenge.service.mock.PlayerEventQueueMock;
+import com.challenge.service.player.eventlistener.GameInformationEventListener;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

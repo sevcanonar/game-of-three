@@ -1,10 +1,9 @@
-package com.challenge.service.player;
+package com.challenge.service;
 
 import com.challenge.config.GameListenersPerPlayer;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.GameListenerType;
-import com.challenge.event.*;
-import org.springframework.scheduling.annotation.Async;
+import com.challenge.service.player.eventlistener.*;
 import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;
@@ -22,12 +21,12 @@ public class GameEventsRegisterer {
         this.gameListenersPerPlayer = gameListenersPerPlayer;
     }
 
-    public void registerAllListeners(String userName, PrintWriter out, Scanner in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
-        register(userName, GameListenerType.AUTOMAN, new GameAutoManualInfoEventListener(out, in, clientSocket, playerEventQueue));
-        register(userName, GameListenerType.INFO, new GameInformationEventListener(out, in, clientSocket, playerEventQueue));
-        register(userName, GameListenerType.START, new GameStartEventListener(out, in, clientSocket, playerEventQueue));
-        register(userName, GameListenerType.YOURTURN, new GameYourTurnEventListener(out, in, clientSocket, playerEventQueue));
-        register(userName, GameListenerType.GAMEOVER, new GameOverEventListener(out, in, clientSocket, playerEventQueue));
+    public void registerAllListeners(String userName, PrintWriter out, Scanner in, Socket clientSocket) {
+        register(userName, GameListenerType.AUTOMAN, new GameAutoManualInfoEventListener(out, in, clientSocket));
+        register(userName, GameListenerType.INFO, new GameInformationEventListener(out, in, clientSocket));
+        register(userName, GameListenerType.START, new GameStartEventListener(out, in, clientSocket));
+        register(userName, GameListenerType.YOURTURN, new GameYourTurnEventListener(out, in, clientSocket));
+        register(userName, GameListenerType.GAMEOVER, new GameOverEventListener(out, in, clientSocket));
     }
 
 

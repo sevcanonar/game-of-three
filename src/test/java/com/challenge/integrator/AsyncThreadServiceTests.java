@@ -1,6 +1,6 @@
 package com.challenge.integrator;
 
-import com.challenge.service.player.GameEventsRegisterer;
+import com.challenge.service.GameEventsRegisterer;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

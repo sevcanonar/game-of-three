@@ -1,4 +1,4 @@
-package com.challenge.service.game;
+package com.challenge.service.game.eventhandler;
 
 import com.challenge.event.GameEvent;
 import com.challenge.event.PlayerEvent;

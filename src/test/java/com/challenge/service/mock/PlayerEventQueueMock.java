@@ -15,7 +15,7 @@ public class PlayerEventQueueMock extends PlayerEventQueue {
 
     public BlockingQueue<PlayerEvent> getPlayerEventQueueUserLoginMock() throws InterruptedException {
         BlockingQueue<PlayerEvent> playerEvents = new LinkedBlockingDeque<>();
-        PlayerEvent playerEvent = new PlayerEvent("a", PlayerEventType.USER_LOGIN, "Y", PlayerType.NONE);
+        PlayerEvent playerEvent = new PlayerEvent("a", PlayerEventType.USER_LOGIN, "Y");
         playerEvents.put(playerEvent);
         return playerEvents;
     }

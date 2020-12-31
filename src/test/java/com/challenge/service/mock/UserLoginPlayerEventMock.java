@@ -6,9 +6,9 @@ import com.challenge.event.PlayerEvent;
 
 public class UserLoginPlayerEventMock extends PlayerEvent {
     public UserLoginPlayerEventMock() {
-        super("log", PlayerEventType.USER_LOGIN, "a", PlayerType.NONE);
+        super("log", PlayerEventType.USER_LOGIN, "a");
     }
     public PlayerEvent UserLoginPlayerEventSameName() {
-        return new PlayerEvent("b", PlayerEventType.USER_LOGIN, "a", PlayerType.NONE);
+        return new PlayerEvent("b", PlayerEventType.USER_LOGIN, "a");
     }
 }

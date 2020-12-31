@@ -2,8 +2,8 @@ package com.challenge.integrator;
 
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.ExceptionalMessages;
-import com.challenge.service.player.GameEventsRegisterer;
-import com.challenge.service.player.MultiplePlayerMeeterService;
+import com.challenge.service.GameEventsRegisterer;
+import com.challenge.service.MultiplePlayerMeeterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -3,6 +3,7 @@ package com.challenge.service.player;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.event.GameAutoManualInformationEvent;
 import com.challenge.service.mock.PlayerEventQueueMock;
+import com.challenge.service.player.eventlistener.GameAutoManualInfoEventListener;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,25 +31,19 @@ public class GameAutoManualInfoEventListenerTests {
     Scanner in;
     @Mock
     Socket clientSocket;
-    @Mock
-    PlayerEventQueue playerEventQueue;
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        ReflectionTestUtils.setField(gameAutoManualInfoEventListener, "playerEventQueue", playerEventQueue);
     }
 
     @Test
-    public void doHandleOnGameEvent() throws IOException {
+    public void doHandleOnGameEvent() {
         GameAutoManualInformationEvent gameEvent = new GameAutoManualInformationEvent("s", "Auto");
-        Mockito.doReturn(new PlayerEventQueueMock().getPlayerEventQueueEmptyMock()).when(playerEventQueue).getInstance();
         Mockito.doReturn("A").when(in).nextLine();
         gameAutoManualInfoEventListener.onGameEvent(gameEvent);
-        Mockito.verify(playerEventQueue, Mockito.times(1)).getInstance();
         Mockito.verify(out, Mockito.times(2)).println(Mockito.anyString());
         Mockito.verify(in, Mockito.times(1)).nextLine();
-        Assert.assertEquals(1, playerEventQueue.getInstance().size());
     }
 }
 
