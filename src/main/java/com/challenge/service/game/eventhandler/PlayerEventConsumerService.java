@@ -7,6 +7,7 @@ import com.challenge.event.GameEvent;
 import com.challenge.event.PlayerEvent;
 import com.challenge.model.PlayerMoveInfo;
 import com.challenge.service.eventpublisher.GameEventsPublisher;
+import com.challenge.service.eventpublisher.GamePublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,14 +26,14 @@ public class PlayerEventConsumerService extends Thread {
     AutoManualSelectionHandlingService autoManualSelectionHandlingService;
     MovePlayedHandlingService movePlayedHandlingService;
     PlayerEventQueue playerEventQueue;
-    GameEventsPublisher gameEventsPublisher;
+    GamePublisher gameEventsPublisher;
     BlockingQueue<PlayerEvent> playerEvents;
 
     public PlayerEventConsumerService(UserLoginHandlingService userLoginHandlingService,
                                       AutoManualSelectionHandlingService autoManualSelectionHandlingService,
                                       MovePlayedHandlingService movePlayedHandlingService,
                                       PlayerEventQueue playerEventQueue,
-                                      GameEventsPublisher gameEventsPublisher) {
+                                      GamePublisher gameEventsPublisher) {
         this.userLoginHandlingService = userLoginHandlingService;
         this.autoManualSelectionHandlingService = autoManualSelectionHandlingService;
         this.movePlayedHandlingService = movePlayedHandlingService;

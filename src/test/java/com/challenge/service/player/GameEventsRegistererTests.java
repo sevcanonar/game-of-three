@@ -1,11 +1,8 @@
 package com.challenge.service.player;
 
 import com.challenge.config.GameListenersPerPlayer;
-import com.challenge.config.PlayerEventQueue;
-import com.challenge.service.GameEventsRegisterer;
+import com.challenge.service.initialization.GameEventsRegisterer;
 import com.challenge.service.mock.GameListenersPerPlayerMock;
-import com.challenge.service.player.eventlistener.GameListener;
-import com.challenge.service.player.eventlistener.GameYourTurnEventListener;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,10 +11,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Scanner;
 
 @SpringBootTest
 public class GameEventsRegistererTests {

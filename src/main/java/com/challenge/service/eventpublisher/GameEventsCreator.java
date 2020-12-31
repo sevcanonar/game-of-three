@@ -1,9 +1,11 @@
-package com.challenge.service;
+package com.challenge.service.eventpublisher;
 
 import com.challenge.config.GameListenersPerPlayer;
 import com.challenge.constants.GameListenerType;
 import com.challenge.event.*;
-import com.challenge.service.eventpublisher.PlayerEventPublisher;
+import com.challenge.service.eventpublisher.PlayerPublisher;
+import com.challenge.service.initialization.EventRegisterer;
+import com.challenge.service.initialization.GameEventsRegisterer;
 import com.challenge.service.player.eventlistener.GameListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -11,21 +13,21 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class GameEventsCreator {
+public class GameEventsCreator implements EventCreator {
 
     GameListener gameListener;
 
-    GameEventsRegisterer gameEventsRegisterer;
+    EventRegisterer gameEventsRegisterer;
     GameListenersPerPlayer gameListenersPerPlayer;
-    PlayerEventPublisher playerEventPublisher;
+    PlayerPublisher playerEventPublisher;
 
-    public GameEventsCreator(GameEventsRegisterer gameEventsRegisterer, GameListenersPerPlayer gameListenersPerPlayer, PlayerEventPublisher playerEventPublisher) {
+    public GameEventsCreator(EventRegisterer gameEventsRegisterer, GameListenersPerPlayer gameListenersPerPlayer, PlayerPublisher playerEventPublisher) {
         this.gameEventsRegisterer = gameEventsRegisterer;
         this.gameListenersPerPlayer = gameListenersPerPlayer;
         this.playerEventPublisher = playerEventPublisher;
     }
 
-    @Async
+    @Override
     public void createEvent(GameEvent gameEvent) {
         Map<GameListenerType, GameListener> gameListenerMapForUser = gameListenersPerPlayer.getInstance().get(gameEvent.getTo());
         if (gameEvent instanceof GameYourTurnEvent) {

@@ -5,7 +5,7 @@ import com.challenge.event.PlayerEvent;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlayerEventPublisher {
+public class PlayerEventPublisher implements PlayerPublisher{
 
     PlayerEventQueue playerEventQueue;
 
@@ -13,6 +13,7 @@ public class PlayerEventPublisher {
         this.playerEventQueue = playerEventQueue;
     }
 
+    @Override
     public void publish(PlayerEvent playerEvent) {
         if (playerEvent != null) {
             try {

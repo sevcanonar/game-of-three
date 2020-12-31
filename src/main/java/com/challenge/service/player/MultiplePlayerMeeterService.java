@@ -1,4 +1,4 @@
-package com.challenge.service;
+package com.challenge.service.player;
 
 
 import com.challenge.config.PlayerEventQueue;
@@ -6,6 +6,7 @@ import com.challenge.constants.ExceptionalMessages;
 import com.challenge.constants.PlayerEventType;
 import com.challenge.constants.PlayerMessages;
 import com.challenge.event.PlayerEvent;
+import com.challenge.service.initialization.EventRegisterer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,9 +23,9 @@ public class MultiplePlayerMeeterService extends Thread {
 
     PlayerEventQueue playerEventQueue;
     Socket clientSocket;
-    GameEventsRegisterer gameEventsRegisterer;
+    EventRegisterer gameEventsRegisterer;
 
-    public MultiplePlayerMeeterService(ServerSocket socket, GameEventsRegisterer gameEventsRegisterer, PlayerEventQueue playerEventQueue) {
+    public MultiplePlayerMeeterService(ServerSocket socket, EventRegisterer gameEventsRegisterer, PlayerEventQueue playerEventQueue) {
         try {
             this.clientSocket = socket.accept();
             this.gameEventsRegisterer = gameEventsRegisterer;

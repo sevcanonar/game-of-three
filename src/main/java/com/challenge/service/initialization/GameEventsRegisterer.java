@@ -1,4 +1,4 @@
-package com.challenge.service;
+package com.challenge.service.initialization;
 
 import com.challenge.config.GameListenersPerPlayer;
 import com.challenge.config.PlayerEventQueue;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 @Component
-public class GameEventsRegisterer {
+public class GameEventsRegisterer implements EventRegisterer {
 
     GameListenersPerPlayer gameListenersPerPlayer;
 
@@ -21,6 +21,7 @@ public class GameEventsRegisterer {
         this.gameListenersPerPlayer = gameListenersPerPlayer;
     }
 
+    @Override
     public void registerAllListeners(String userName, PrintWriter out, Scanner in, Socket clientSocket) {
         register(userName, GameListenerType.AUTOMAN, new GameAutoManualInfoEventListener(out, in, clientSocket));
         register(userName, GameListenerType.INFO, new GameInformationEventListener(out, in, clientSocket));
@@ -29,6 +30,15 @@ public class GameEventsRegisterer {
         register(userName, GameListenerType.GAMEOVER, new GameOverEventListener(out, in, clientSocket));
     }
 
+    @Override
+    public void deRegisterAllListeners(String userName) {
+        gameListenersPerPlayer.getInstance().remove(userName);
+    }
+
+    @Override
+    public Map<GameListenerType, GameListener> getGameListeners(String userName) {
+        return gameListenersPerPlayer.getInstance().get(userName);
+    }
 
     private void register(String userName, GameListenerType gameListenerType, GameListener listener) {
         Map<GameListenerType, GameListener> gameListenerTypeGameListenerMapForUser = gameListenersPerPlayer.getInstance().get(userName);
@@ -40,12 +50,7 @@ public class GameEventsRegisterer {
         gameListenersPerPlayer.getInstance().put(userName, gameListenerTypeGameListenerMapForUser);
     }
 
-    public void deRegisterAllListeners(String userName) {
-        gameListenersPerPlayer.getInstance().remove(userName);
-    }
 
-    public Map<GameListenerType, GameListener> getGameListeners(String userName) {
-        return gameListenersPerPlayer.getInstance().get(userName);
-    }
+
 
 }

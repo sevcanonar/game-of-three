@@ -1,15 +1,13 @@
 package com.challenge.service.eventpublisher;
 
 import com.challenge.event.GameEvent;
-import com.challenge.event.PlayerEvent;
-import com.challenge.service.GameEventsCreator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class GameEventsPublisher {
+public class GameEventsPublisher implements GamePublisher {
 
     GameEventsCreator gameEventsCreator;
     PlayerEventPublisher playerEventPublisher;
@@ -19,6 +17,7 @@ public class GameEventsPublisher {
         this.playerEventPublisher = playerEventPublisher;
     }
 
+    @Override
     @Async
     public void publish(List<GameEvent> gameEvents) {
         for (GameEvent gameEvent : gameEvents) {
