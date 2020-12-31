@@ -1,6 +1,9 @@
 package com.challenge.service.game;
 
 import com.challenge.model.PlayerMoveInfo;
+import com.challenge.service.game.eventbuilder.GameEventsBuilderMediator;
+import com.challenge.service.game.helper.PlayerInformationProvider;
+import com.challenge.service.game.eventhandler.UserLoginHandlingService;
 import com.challenge.service.mock.NotStartedGameInfoMock;
 import com.challenge.service.mock.PlayerInformationMock;
 import com.challenge.service.mock.StartedGameInfoMock;
@@ -22,7 +25,10 @@ public class UserLoginHandlingServiceTest {
     UserLoginHandlingService userLoginHandlingService;
 
     @Mock
-    GameHandlingServiceHelper gameHandlingServiceHelper;
+    PlayerInformationProvider playerInformationProvider;
+
+    @Mock
+    GameEventsBuilderMediator gameEventsBuilderMediator;
 
     @Before
     public void init() {
@@ -32,8 +38,8 @@ public class UserLoginHandlingServiceTest {
     @Test
     public void doHandleWhenOpponentWithOtherNameExistsAndStarted() {
         Map<String, PlayerMoveInfo> playerInformation = new PlayerInformationMock().getStartedPlayerInformation();
-        Mockito.doReturn("sevcan").when(gameHandlingServiceHelper).getCurrentUserName(Mockito.any());
-        Mockito.doReturn(new StartedGameInfoMock()).when(gameHandlingServiceHelper).startedGameInformation(Mockito.any());
+        Mockito.doReturn("sevcan").when(playerInformationProvider).getCurrentUserName(Mockito.any());
+        Mockito.doReturn(new StartedGameInfoMock()).when(playerInformationProvider).startedGameInformation(Mockito.any());
         userLoginHandlingService.handle(new UserLoginPlayerEventMock(), playerInformation);
         Assert.assertEquals(2, playerInformation.size());
         Assert.assertEquals(playerInformation.get("log").getMoveInput(), playerInformation.get("a").getMoveValue());
@@ -42,8 +48,8 @@ public class UserLoginHandlingServiceTest {
     @Test
     public void doHandleWhenOpponentWithOtherNameExistsAndNotStarted() {
         Map<String, PlayerMoveInfo> playerInformation = new PlayerInformationMock().getNotStartedPlayerInformation();
-        Mockito.doReturn("sevcan").when(gameHandlingServiceHelper).getCurrentUserName(Mockito.any());
-        Mockito.doReturn(new NotStartedGameInfoMock()).when(gameHandlingServiceHelper).startedGameInformation(Mockito.any());
+        Mockito.doReturn("sevcan").when(playerInformationProvider).getCurrentUserName(Mockito.any());
+        Mockito.doReturn(new NotStartedGameInfoMock()).when(playerInformationProvider).startedGameInformation(Mockito.any());
         userLoginHandlingService.handle(new UserLoginPlayerEventMock(), playerInformation);
         Assert.assertEquals(2, playerInformation.size());
         Assert.assertNull(playerInformation.get("log").getMoveInput());
@@ -52,8 +58,8 @@ public class UserLoginHandlingServiceTest {
     @Test
     public void doHandleWhenOpponentDoesntExist() {
         Map<String, PlayerMoveInfo> playerInformation = new PlayerInformationMock().getEmptyPlayerInformation();
-        Mockito.doReturn(null).when(gameHandlingServiceHelper).getCurrentUserName(Mockito.any());
-        Mockito.doReturn(new NotStartedGameInfoMock()).when(gameHandlingServiceHelper).startedGameInformation(Mockito.any());
+        Mockito.doReturn(null).when(playerInformationProvider).getCurrentUserName(Mockito.any());
+        Mockito.doReturn(new NotStartedGameInfoMock()).when(playerInformationProvider).startedGameInformation(Mockito.any());
         userLoginHandlingService.handle(new UserLoginPlayerEventMock(), playerInformation);
         Assert.assertEquals(1, playerInformation.size());
         Assert.assertNull(playerInformation.get("log").getMoveInput());
@@ -62,7 +68,7 @@ public class UserLoginHandlingServiceTest {
     @Test
     public void doHandleWhenOpponentExistWithSameName() {
         Map<String, PlayerMoveInfo> playerInformation = new PlayerInformationMock().getNotStartedPlayerInformation();
-        Mockito.doReturn(new NotStartedGameInfoMock()).when(gameHandlingServiceHelper).startedGameInformation(Mockito.any());
+        Mockito.doReturn(new NotStartedGameInfoMock()).when(playerInformationProvider).startedGameInformation(Mockito.any());
         userLoginHandlingService.handle(new UserLoginPlayerEventMock().UserLoginPlayerEventSameName(), playerInformation);
         Assert.assertEquals(1, playerInformation.size());
     }

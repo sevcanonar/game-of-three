@@ -1,4 +1,4 @@
-package com.challenge.service.player;
+package com.challenge.service.player.eventlistener;
 
 import com.challenge.config.GameStartInformation;
 import com.challenge.config.PlayerEventQueue;
@@ -18,14 +18,14 @@ import java.util.Scanner;
 
 public class GameYourTurnEventListener extends GameEventsListener implements GameListener {
 
-    private static final Logger LOG =   LoggerFactory.getLogger(GameYourTurnEventListener.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GameYourTurnEventListener.class);
 
-    public GameYourTurnEventListener(PrintWriter out, Scanner in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
-        super(out, in, clientSocket, playerEventQueue);
+    public GameYourTurnEventListener(PrintWriter out, Scanner in, Socket clientSocket) {
+        super(out, in, clientSocket);
     }
 
     @Override
-    public void onGameEvent(GameEvent gameEvent) {
+    public PlayerEvent onGameEvent(GameEvent gameEvent) {
         try {
             out.println(gameEvent.getPlayerOutput());
             String userInput = null;
@@ -37,14 +37,15 @@ public class GameYourTurnEventListener extends GameEventsListener implements Gam
                 while (GameStartInformation.getInstance()) {
                     out.println(PlayerMessages.ENTER_ONE_OF_1_0_1);
                     userInput = in.nextLine();
-                    if (userInput!=null && ((userInput.equals(PlayerMessages.ONE) || userInput.equals(PlayerMessages.ZERO) || userInput.equals(PlayerMessages.MINUS_ONE)))) {
+                    if (userInput != null && ((userInput.equals(PlayerMessages.ONE) || userInput.equals(PlayerMessages.ZERO) || userInput.equals(PlayerMessages.MINUS_ONE)))) {
                         break;
                     }
                 }
             }
-            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput));
+            return new PlayerEvent(gameEvent.getTo(), PlayerEventType.MOVE_IS_PLAYED, userInput);
         } catch (Exception e) {
             LOG.debug(ExceptionalMessages.INPUT_IS_SKIPPED);
+            return null;
         }
     }
 

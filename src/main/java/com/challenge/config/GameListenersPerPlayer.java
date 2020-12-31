@@ -1,7 +1,7 @@
 package com.challenge.config;
 
 import com.challenge.constants.GameListenerType;
-import com.challenge.service.player.GameListener;
+import com.challenge.service.player.eventlistener.GameListener;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

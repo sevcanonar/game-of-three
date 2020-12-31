@@ -1,4 +1,4 @@
-package com.challenge.service.player;
+package com.challenge.service.player.eventlistener;
 
 import com.challenge.config.PlayerEventQueue;
 
@@ -12,12 +12,10 @@ public class GameEventsListener {
     PrintWriter out;
     Scanner in;
     Socket clientSocket;
-    PlayerEventQueue playerEventQueue;
 
-    public GameEventsListener(PrintWriter out, Scanner in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
+    public GameEventsListener(PrintWriter out, Scanner in, Socket clientSocket) {
         this.out = out;
         this.in = in;
         this.clientSocket = clientSocket;
-        this.playerEventQueue = playerEventQueue;
     }
 }

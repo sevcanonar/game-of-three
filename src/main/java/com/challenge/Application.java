@@ -1,7 +1,7 @@
 package com.challenge;
 
 import com.challenge.integrator.GameSocketServer;
-import com.challenge.service.game.PlayerEventConsumerService;
+import com.challenge.service.game.eventhandler.PlayerEventConsumerService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

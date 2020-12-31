@@ -2,7 +2,6 @@ package com.challenge.constants;
 
 public class ExceptionalMessages {
 
-
     private ExceptionalMessages() {
     }
 
@@ -10,6 +9,8 @@ public class ExceptionalMessages {
     public static final String INPUT_IS_SKIPPED = "Game event happened. Input is skipped.";
     public static final String GAME_THREAD_INTERRUPTED = "Game thread is interrupted. Exitting the game.";
     public static final String GAME_IS_INTERRUPTED_EXTERNALLY = "Game is interrupted externally.";
+    public static final String UNEXPECTED_VALUE = "Unexpected value: ";
+    public static final String INPUT_IS_NOT_SUITABLE = "Your input is not suitable, please enter again.";
 
 
     public static final String ERROR_WHILE_MEETING_PLAYER = "Error happened while meeting the player." ;

@@ -1,6 +1,7 @@
 package com.challenge.service.game;
 
 import com.challenge.model.PlayerMoveInfo;
+import com.challenge.service.game.helper.PlayerInformationProvider;
 import com.challenge.service.mock.PlayerInformationMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,10 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Map;
 
 @SpringBootTest
-public class GameHandlingServiceHelperTests {
+public class PlayerInformationProviderTests {
 
     @InjectMocks
-    public GameHandlingServiceHelper gameHandlingServiceHelper;
+    public PlayerInformationProvider playerInformationProvider;
 
     @Before
     public void init() {
@@ -25,21 +26,21 @@ public class GameHandlingServiceHelperTests {
     @Test
     public void testGetCurrentUserName() {
         Map<String, PlayerMoveInfo> oneUserPlayerInfo = new PlayerInformationMock().getStartedPlayerInformation();
-        String currentUser = gameHandlingServiceHelper.getCurrentUserName(oneUserPlayerInfo);
+        String currentUser = playerInformationProvider.getCurrentUserName(oneUserPlayerInfo);
         Assert.assertEquals("a", currentUser);
     }
 
     @Test
     public void testStartedGameInformation() {
         Map<String, PlayerMoveInfo> oneUserPlayerInfo = new PlayerInformationMock().getStartedPlayerInformation();
-        PlayerMoveInfo startedGameInformation = gameHandlingServiceHelper.startedGameInformation(oneUserPlayerInfo);
+        PlayerMoveInfo startedGameInformation = playerInformationProvider.startedGameInformation(oneUserPlayerInfo);
         Assert.assertEquals(true, startedGameInformation.isStarted());
     }
 
     @Test
     public void testGetOpponent() {
         Map<String, PlayerMoveInfo> twoPlayerInformation = new PlayerInformationMock().getStartedTwoPlayerInformation();
-        String opponent = gameHandlingServiceHelper.getOpponent("a", twoPlayerInformation);
+        String opponent = playerInformationProvider.getOpponentName("a", twoPlayerInformation);
         Assert.assertEquals("auto", opponent);
     }
 }

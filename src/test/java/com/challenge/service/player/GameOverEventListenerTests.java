@@ -3,6 +3,7 @@ package com.challenge.service.player;
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.event.GameOverEvent;
 import com.challenge.service.mock.PlayerEventQueueMock;
+import com.challenge.service.player.eventlistener.GameOverEventListener;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

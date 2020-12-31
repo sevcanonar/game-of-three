@@ -1,6 +1,7 @@
 package com.challenge.integrator;
 
-import com.challenge.service.player.GameEventsRegisterer;
+import com.challenge.service.initialization.EventRegisterer;
+import com.challenge.service.initialization.GameEventsRegisterer;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,7 +23,7 @@ public class AsyncThreadServiceTests {
     private ServerSocket serverSocket;
 
     @Mock
-    private GameEventsRegisterer gameEventsRegisterer;
+    private EventRegisterer gameEventsRegisterer;
 
     @Test
     public void testExecuteAsynchronously() {

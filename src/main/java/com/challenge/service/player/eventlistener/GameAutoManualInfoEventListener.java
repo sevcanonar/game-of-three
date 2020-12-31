@@ -1,4 +1,4 @@
-package com.challenge.service.player;
+package com.challenge.service.player.eventlistener;
 
 import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.ExceptionalMessages;
@@ -16,12 +16,12 @@ import java.util.Scanner;
 public class GameAutoManualInfoEventListener extends GameEventsListener implements GameListener {
     private static final Logger LOG = LoggerFactory.getLogger(GameAutoManualInfoEventListener.class);
 
-    public GameAutoManualInfoEventListener(PrintWriter out, Scanner in, Socket clientSocket, PlayerEventQueue playerEventQueue) {
-        super(out, in, clientSocket, playerEventQueue);
+    public GameAutoManualInfoEventListener(PrintWriter out, Scanner in, Socket clientSocket) {
+        super(out, in, clientSocket);
     }
 
     @Override
-    public void onGameEvent(GameEvent gameEvent) {
+    public PlayerEvent onGameEvent(GameEvent gameEvent) {
         try {
             out.println(gameEvent.getPlayerOutput());
             String userInput;
@@ -32,10 +32,11 @@ public class GameAutoManualInfoEventListener extends GameEventsListener implemen
                     break;
                 }
             }
-            playerEventQueue.getInstance().put(new PlayerEvent(gameEvent.getTo(), PlayerEventType.AUTO_MANUAL_SELECTION, userInput));
-        } catch (InterruptedException e) {
+            return new PlayerEvent(gameEvent.getTo(), PlayerEventType.AUTO_MANUAL_SELECTION, userInput);
+        } catch (IndexOutOfBoundsException e) {
             LOG.error(ExceptionalMessages.ERROR_WHILE_GETTING_PLAYER_TYPE, e.getMessage());
             Thread.currentThread().interrupt();
+            return null;
         }
     }
 }

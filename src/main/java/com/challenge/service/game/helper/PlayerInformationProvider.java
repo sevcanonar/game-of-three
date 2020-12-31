@@ -1,14 +1,12 @@
-package com.challenge.service.game;
+package com.challenge.service.game.helper;
 
 import com.challenge.model.PlayerMoveInfo;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Component
-public class GameHandlingServiceHelper {
+public class PlayerInformationProvider {
 
     public String getCurrentUserName(Map<String, PlayerMoveInfo> playerInformation) {
         for (Map.Entry<String, PlayerMoveInfo> entry : playerInformation.entrySet()) {
@@ -26,7 +24,7 @@ public class GameHandlingServiceHelper {
         return new PlayerMoveInfo(false);
     }
 
-    public String getOpponent(String userName, Map<String, PlayerMoveInfo> playerInformation) {
+    public String getOpponentName(String userName, Map<String, PlayerMoveInfo> playerInformation) {
         for (Map.Entry<String, PlayerMoveInfo> entry : playerInformation.entrySet()) {
             String playerName = entry.getKey();
             if (!playerName.equals(userName)) {
@@ -34,5 +32,9 @@ public class GameHandlingServiceHelper {
             }
         }
         return null;
+    }
+
+    public PlayerMoveInfo getOpponentMoveInfo(String userName, Map<String, PlayerMoveInfo> playerInformation) {
+        return playerInformation.get(userName);
     }
 }

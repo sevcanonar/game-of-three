@@ -5,8 +5,8 @@ import com.challenge.config.PlayerEventQueue;
 import com.challenge.constants.ExceptionalMessages;
 import com.challenge.constants.PlayerEventType;
 import com.challenge.constants.PlayerMessages;
-import com.challenge.constants.PlayerType;
 import com.challenge.event.PlayerEvent;
+import com.challenge.service.initialization.EventRegisterer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +23,9 @@ public class MultiplePlayerMeeterService extends Thread {
 
     PlayerEventQueue playerEventQueue;
     Socket clientSocket;
-    GameEventsRegisterer gameEventsRegisterer;
+    EventRegisterer gameEventsRegisterer;
 
-    public MultiplePlayerMeeterService(ServerSocket socket, GameEventsRegisterer gameEventsRegisterer, PlayerEventQueue playerEventQueue) {
+    public MultiplePlayerMeeterService(ServerSocket socket, EventRegisterer gameEventsRegisterer, PlayerEventQueue playerEventQueue) {
         try {
             this.clientSocket = socket.accept();
             this.gameEventsRegisterer = gameEventsRegisterer;
@@ -49,7 +49,7 @@ public class MultiplePlayerMeeterService extends Thread {
                 if (userName != null) {
                     if (gameEventsRegisterer.getGameListeners(userName) == null) {
                         playerEvents.put(new PlayerEvent(userName, PlayerEventType.USER_LOGIN, userName));
-                        gameEventsRegisterer.registerAllListeners(userName, out, in, clientSocket, playerEventQueue);
+                        gameEventsRegisterer.registerAllListeners(userName, out, in, clientSocket);
                         break;
                     } else {
                         out.println(PlayerMessages.THERE_IS_ALREADY_A_USER_WITH_THIS_NAME);

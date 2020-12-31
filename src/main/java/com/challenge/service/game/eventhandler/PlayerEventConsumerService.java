@@ -1,12 +1,13 @@
-package com.challenge.service.game;
+package com.challenge.service.game.eventhandler;
 
 
 import com.challenge.config.PlayerEventQueue;
+import com.challenge.constants.ExceptionalMessages;
 import com.challenge.event.GameEvent;
 import com.challenge.event.PlayerEvent;
 import com.challenge.model.PlayerMoveInfo;
-import com.challenge.service.player.GameEventsCreator;
-import com.challenge.service.player.GameEventsRegisterer;
+import com.challenge.service.eventpublisher.GameEventsPublisher;
+import com.challenge.service.eventpublisher.GamePublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,25 +26,29 @@ public class PlayerEventConsumerService extends Thread {
     AutoManualSelectionHandlingService autoManualSelectionHandlingService;
     MovePlayedHandlingService movePlayedHandlingService;
     PlayerEventQueue playerEventQueue;
+    GamePublisher gameEventsPublisher;
     BlockingQueue<PlayerEvent> playerEvents;
-    GameEventsCreator gameEventsCreator;
 
-    public PlayerEventConsumerService(UserLoginHandlingService userLoginHandlingService, AutoManualSelectionHandlingService autoManualSelectionHandlingService, MovePlayedHandlingService movePlayedHandlingService, PlayerEventQueue playerEventQueue, GameEventsCreator gameEventsCreator) {
+    public PlayerEventConsumerService(UserLoginHandlingService userLoginHandlingService,
+                                      AutoManualSelectionHandlingService autoManualSelectionHandlingService,
+                                      MovePlayedHandlingService movePlayedHandlingService,
+                                      PlayerEventQueue playerEventQueue,
+                                      GamePublisher gameEventsPublisher) {
         this.userLoginHandlingService = userLoginHandlingService;
         this.autoManualSelectionHandlingService = autoManualSelectionHandlingService;
         this.movePlayedHandlingService = movePlayedHandlingService;
         this.playerEventQueue = playerEventQueue;
         this.playerEvents = this.playerEventQueue.getInstance();
-        this.gameEventsCreator = gameEventsCreator;
+        this.gameEventsPublisher = gameEventsPublisher;
     }
 
     @Override
     public void run() {
-        PlayerEvent playerEvent;
+        PlayerEvent incomingPlayerEvent;
         PlayerEventHandlingService playerEventHandlingService;
         try {
-            while ((playerEvent = playerEvents.take()) != null) {
-                switch (playerEvent.getEventType()) {
+            while ((incomingPlayerEvent = playerEvents.take()) != null) {
+                switch (incomingPlayerEvent.getEventType()) {
                     case USER_LOGIN:
                         playerEventHandlingService = userLoginHandlingService;
                         break;
@@ -54,18 +59,13 @@ public class PlayerEventConsumerService extends Thread {
                         playerEventHandlingService = movePlayedHandlingService;
                         break;
                     default:
-                        throw new IllegalStateException("Unexpected value: " + playerEvent.getEventType());
+                        throw new IllegalStateException(ExceptionalMessages.UNEXPECTED_VALUE + incomingPlayerEvent.getEventType());
                 }
-                List<GameEvent> gameEvents = playerEventHandlingService.handle(playerEvent, playerInformation);
-                sendGameEvents(gameEvents);
+                List<GameEvent> gameEvents = playerEventHandlingService.handle(incomingPlayerEvent, playerInformation);
+                gameEventsPublisher.publish(gameEvents);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    private void sendGameEvents(List<GameEvent> gameEvents) {
-        for (GameEvent gameEvent : gameEvents)
-            gameEventsCreator.createEvent(gameEvent);
     }
 }
